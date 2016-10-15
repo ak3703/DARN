@@ -1,8 +1,8 @@
-type operator = Add | Sub | Mul | Div
+type bop = Add | Sub | Mul | Div 
 
-type expr = 
-    Binop of expr * operator * expr
-    | Lit of int
-    | Seq of expr * expr
-    | Asn of int * expr
-    | Var of int
+type uop = Neg | Not
+type expr =
+    Literal of int
+    | Binop of expr * bop * expr
+
+type program = expr

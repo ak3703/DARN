@@ -1,14 +1,17 @@
 { open Parser }
 
-rule token = 
-    parse [' ' '\t' '\r' '\n'] { token lexbuf }
-        | '+'                  { PLUS }
-        | '-'                  { MINUS }
-        | '*'                  { TIMES }
-        | '/'                  { DIVIDE }
-        | '$'['0'-'9'] as lit  { VARIABLE(int_of_char lit.[1] - 48) }
-        | ['0'-'9']+ as lit    { LITERAL(int_of_string lit) }
-        | '='                  { ASSIGNMENT }
-        | ','                  { SEQUENCE }
+let letter = ['a'-'z' 'A'-'Z']
+let digit = ['0'-'9']
 
-        | eof                  { EOF }
+rule token = parse 
+      [' ' '\t' '\r' '\n'] { token lexbuf }
+    | "/*"                 { comment lexbuf }
+    | '+'                  { PLUS }
+    | '-'                  { MINUS }
+    | '*'                  { TIMES }
+    | '/'                  { DIVIDE }
+    | ['0'-'9']+ as lxm    { LITERAL(int_of_string lxm) }
+    | eof                  { EOF }
+and comment = parse 
+     "*/"                  { token lexbuf }
+    | _                    { comment lexbuf }
