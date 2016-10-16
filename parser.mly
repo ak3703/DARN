@@ -1,11 +1,19 @@
 %{ open Ast %}
 
-%token PLUS MINUS TIMES DIVIDE EOF
+%token SEMI LPAREN RPAREN LCURLY RCURLY LBRACK RBRACK COMMA COLON
+%token PLUS MINUS TIMES DIVIDE EOF ASSIGN NOT
+%token EQ NEQ LT LEQ GT GEQ AND OR
 
 %token <int> LITERAL
 
+%right ASSIGN
+%left OR
+%left AND
+%left EQ NEQ
+%left LT GT LEQ GEQ
 %left PLUS MINUS
 %left TIMES DIVIDE 
+%right NOT
 
 %start program  
 %type <Ast.program> program 
