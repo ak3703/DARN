@@ -27,4 +27,4 @@ expr:
     | expr TIMES expr   {Binop($1, Mul, $3) } 
     | expr DIVIDE expr  {Binop($1, Div, $3) }
     | LITERAL           {Literal($1)}
-    | VARIABLE 			{VARIABLE($1)}
+    | VARIABLE 			{Variable($1)}
