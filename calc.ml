@@ -6,9 +6,13 @@ let string_of_bop = function
       | Mul -> "*"
       | Div -> "/"
 
+let string_of_uop = function
+      Not -> "!"
+
 let rec string_of_expr = function
     Literal(i) -> "int_lit " ^ string_of_int i
     | Variable(i) -> "var " ^ i
+    | Unop(uop, r1) -> "Unop { " ^ (string_of_uop uop) ^ " " ^ string_of_expr r1 ^ " }"
     | Binop(r1, bop, r2) -> "Binop { " ^ string_of_expr r1 ^ " " ^ (string_of_bop
     bop) ^ " " ^ (string_of_expr r2) ^ " }"
 

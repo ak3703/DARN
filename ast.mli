@@ -1,11 +1,12 @@
 type bop = Add | Sub | Mul | Div 
 
-type uop = Neg | Not
+type uop = Not
 
 type expr =
     Literal of int
     | Variable of string
     | Binop of expr * bop * expr
+    | Unop of uop * expr
 
 type program = expr
 (* TODO: Why are we not allowed to have this in the mli file
