@@ -4,6 +4,7 @@ type uop = Neg | Not
 
 type expr =
     Literal of int
+    | Variable of string
     | Binop of expr * bop * expr
 
 type program = expr
