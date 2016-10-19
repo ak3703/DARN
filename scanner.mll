@@ -24,9 +24,9 @@ rule token = parse
     | "!="                 { NEQ }
     | '<'                  { LT }
     | "<="                 { LEQ }
-    | ">"                  { GT }
+    | '>'                  { GT }
     | ">="                 { GEQ }
-    | "&& "                { AND }
+    | "&&"                 { AND }
     | "||"                 { OR }
     | "!"                  { NOT }
     | ['0'-'9']+ as lxm    { LITERAL(int_of_string lxm) }
