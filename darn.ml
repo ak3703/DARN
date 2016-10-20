@@ -5,10 +5,14 @@ let string_of_bop = function
       | Sub -> "-"
       | Mul -> "*"
       | Div -> "/"
+      | Less -> "<"
+      | Greater -> ">"
+      | Leq -> "<="
+      | Geq -> ">="
 
 let string_of_uop = function
       Not -> "!"
-
+(* string print tree*)
 let rec string_of_expr = function
     Literal(i) -> "int_lit " ^ string_of_int i
     | Variable(i) -> "var " ^ i
