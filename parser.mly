@@ -42,4 +42,3 @@ expr:
     | INTLITERAL        {IntLiteral($1)}
     | FLOATLITERAL      {FloatLiteral($1)}
     | ID 			    {Id($1)} 
-    | ID ASSIGN expr    {Assign($1, $3)}
