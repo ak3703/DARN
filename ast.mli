@@ -3,8 +3,6 @@ Neq
 
 type uop = Not
 
-type op = Assign
-
 type expr =
     IntLiteral of int
     | FloatLiteral of float
@@ -12,6 +10,7 @@ type expr =
     | Id of string
     | Binop of expr * bop * expr
     | Unop of uop * expr
+    | Assign of expr * expr
 
 
 type program = expr

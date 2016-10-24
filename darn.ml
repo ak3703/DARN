@@ -27,7 +27,7 @@ let rec string_of_expr = function
     | Unop(uop, r1) -> "Unop { " ^ (string_of_uop uop) ^ " " ^ string_of_expr r1 ^ " }"
     | Binop(r1, bop, r2) -> "Binop { " ^ string_of_expr r1 ^ " " ^ (string_of_bop
     bop) ^ " " ^ (string_of_expr r2) ^ " }"
-    | Assign(i, r1) -> "Op { " ^ i ^ " =  " ^ (string_of_expr r1) ^ " }"
+    | Assign(r1, r2) -> "Assign { " ^ (string_of_expr r1) ^ " =  " ^ (string_of_expr r2) ^ " }"
 
 let _ =
     let lexbuf = Lexing.from_channel stdin in

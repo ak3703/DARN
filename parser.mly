@@ -37,8 +37,8 @@ expr:
     | expr EQ expr      {Binop($1, Eq, $3)   }
     | expr OR expr      {Binop($1, Or, $3)   }
     | expr AND expr     {Binop($1, And, $3)  } 
-    | NOT expr		{Unop(Not, $2)    }
-    | ID ASSIGN expr    { Assign($1, $3)  }
+    | NOT expr		    {Unop(Not, $2)    }
+    | expr ASSIGN expr  { Assign($1, $3)  }
     | LPAREN expr RPAREN { $2 }
     | INTLITERAL        {IntLiteral($1)   }
     | FLOATLITERAL      {FloatLiteral($1) }
