@@ -31,6 +31,12 @@ rule token = parse
     | "&&"                 { AND }
     | "||"                 { OR }
     | "!"                  { NOT }
+    | "true"               { TRUE }
+    | "false"              { FALSE }
+    | "char"               { CHAR }
+    | "int"                { INT }
+    | "float"              { FLOAT }
+    | "bool"               { BOOL }
     | ['0'-'9']+ as lxm    { INTLITERAL(int_of_string lxm) }
     | float as lxm         { FLOATLITERAL(float_of_string lxm) }
     | ['a'-'z' 'A'-'Z']['a'-'z' 'A'-'Z' '0'-'9' '_']* as lxm {ID(lxm)}
