@@ -5,8 +5,9 @@
 %token BOOL
 %token EQ NEQ LT LEQ GT GEQ AND OR
 
-%token <int> LITERAL
-%token <string> VARIABLE
+%token <int> INTLITERAL
+%token <float> FLOATLITERAL
+%token <string> ID
 
 %right ASSIGN
 %left OR
@@ -34,5 +35,6 @@ expr:
     | expr OR expr      {Binop($1, Or, $3) }
     | expr AND expr     {Binop($1, And, $3) }
     | NOT expr			{Unop(Not, $2) }
-    | LITERAL           {Literal($1)}
-    | VARIABLE 			{Variable($1)}
+    | INTLITERAL        {IntLiteral($1)}
+    | FLOATLITERAL      {FloatLiteral($1)}
+    | ID 			    {Id($1)}
