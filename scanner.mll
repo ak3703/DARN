@@ -33,6 +33,12 @@ rule token = parse
     | "!"                  { NOT }
     | "true"               { TRUE }
     | "false"              { FALSE }
+    | "if"                 { IF }
+    | "else"               { ELSE }
+    | "elif"               { ELIF }
+    | "for"                { FOR }
+    | "while"              { WHILE }
+    | "return"             { RETURN }
     | "char"               { CHAR }
     | "int"                { INT }
     | "float"              { FLOAT }
