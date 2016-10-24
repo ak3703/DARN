@@ -1,1 +1,7 @@
 .swp
+*.cmi
+*.cmo
+darn
+parser.mli
+parser.ml
+scanner.ml
