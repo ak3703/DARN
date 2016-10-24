@@ -8,6 +8,7 @@ type op = Assign
 type expr =
     IntLiteral of int
     | FloatLiteral of float
+    | BoolLiteral of bool
     | Id of string
     | Binop of expr * bop * expr
     | Unop of uop * expr
