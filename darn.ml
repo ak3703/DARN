@@ -9,6 +9,8 @@ let string_of_bop = function
       | Greater -> ">"
       | Leq -> "<="
       | Geq -> ">="
+      | Or -> "||"
+      | And -> "&&"
 
 let string_of_uop = function
       Not -> "!"

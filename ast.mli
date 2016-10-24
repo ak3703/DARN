@@ -1,4 +1,4 @@
-type bop = Add | Sub | Mul | Div | Less | Greater | Leq | Geq 
+type bop = Add | Sub | Mul | Div | Less | Greater | Leq | Geq | Or | And
 
 type uop = Not
 
