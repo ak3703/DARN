@@ -11,6 +11,6 @@ type expr =
     | Id of string
     | Binop of expr * bop * expr
     | Unop of uop * expr
-    | Assign of string * expr
+
 
 type program = expr
