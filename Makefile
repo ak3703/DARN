@@ -4,6 +4,7 @@ OBJS = parser.cmo scanner.cmo darn.cmo
 
 calc : $(OBJS)
 	ocamlc -o darn $(OBJS)
+	cd test; ./test.sh
 
 scanner.ml : scanner.mll
 	ocamllex scanner.mll
@@ -16,7 +17,6 @@ parser.ml parser.mli : parser.mly
 
 %.cmi : %.mli
 	ocamlc -c $<
-
 
 .PHONY : clean
 clean :
