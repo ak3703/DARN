@@ -13,9 +13,11 @@ let string_of_bop = function
       | And -> "&&"
       | Eq -> "=="
       | Neq -> "!="
-
+      
 let string_of_uop = function
       Not -> "!"
+
+
 (* string print tree*)
 let rec string_of_expr = function
     IntLiteral(i) -> "int_lit " ^ string_of_int i
@@ -24,6 +26,7 @@ let rec string_of_expr = function
     | Unop(uop, r1) -> "Unop { " ^ (string_of_uop uop) ^ " " ^ string_of_expr r1 ^ " }"
     | Binop(r1, bop, r2) -> "Binop { " ^ string_of_expr r1 ^ " " ^ (string_of_bop
     bop) ^ " " ^ (string_of_expr r2) ^ " }"
+    | Assign(i, r1) -> "Op { " ^ i ^ " =  " ^ (string_of_expr r1) ^ " }"
 
 let _ =
     let lexbuf = Lexing.from_channel stdin in
