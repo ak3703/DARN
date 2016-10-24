@@ -11,6 +11,8 @@ let string_of_bop = function
       | Geq -> ">="
       | Or -> "||"
       | And -> "&&"
+      | Eq -> "=="
+      | Neq -> "!="
 
 let string_of_uop = function
       Not -> "!"
