@@ -1,5 +1,4 @@
-type bop = Add | Sub | Mul | Div | Less | Greater | Leq | Geq | Or | And | Eq |
-Neq 
+type bop = Add | Sub | Mul | Div | Less | Greater | Leq | Geq | Or | And | Eq | Neq 
 
 type uop = Not
 
@@ -12,5 +11,6 @@ type expr =
     | Unop of uop * expr
     | Assign of expr * expr
 
+type bool_op
 
 type program = expr

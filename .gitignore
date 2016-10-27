@@ -5,3 +5,5 @@ darn
 parser.mli
 parser.ml
 scanner.ml
+.DS_Store
+.gitignore.swp
