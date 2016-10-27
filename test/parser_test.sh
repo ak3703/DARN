@@ -1,10 +1,10 @@
 #!/bin/bash
 
-INPUT_FILES="scanner/*.in"
-printf "Testing scanner \n"
+INPUT_FILES="parser/*.in"
+printf "Testing parser \n"
 
 for input_file in $INPUT_FILES; do
-    printf "Testing a file in scanner folder \n"
+    printf "Testing a file in parser folder \n"
     output_file=${input_file/.in/.out}
     ../compiler/darn < $input_file | cmp -s $output_file -
     if [ "$?" -eq 0 ]; then

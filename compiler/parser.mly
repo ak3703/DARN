@@ -50,6 +50,7 @@
 
 %%
 program: expr EOF { $1 }
+
 expr:
     arith_ops           { $1 }
     | bool_ops          { $1 }
