@@ -12,3 +12,4 @@ test:
 
 clean:
 	cd compiler; make clean
+	cd test; make clean
