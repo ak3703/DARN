@@ -15,7 +15,7 @@ rule token = parse
 | "/*"  { comment lexbuf }
 
 (* Punctuation *)
-|   '(' { LPAREN }  |   ')' { RPAREN }  |   '[' { LBRACK }  
+|   '(' { LPAREN }  |   ')' { RPAREN }  |   '[' { LBRACK }     
 |   ']' { RBRACK }  |   '{' { LCURLY }  |   '}' { RCURLY }
 |   ';' { SEMI }    |   ',' { COMMA }   |   ':' { COLON }
 
