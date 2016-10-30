@@ -10,7 +10,8 @@ type expr =
     | Binop of expr * bop * expr
     | Unop of uop * expr
     | Assign of expr * expr
+    | Noexpr
 
 type bool_op
 
-type program = expr
+type program = expr list

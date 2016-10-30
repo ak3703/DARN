@@ -49,7 +49,11 @@
 %type <Ast.program> program 
 
 %%
-program: expr EOF { $1 }
+program: decls EOF { $1 }
+
+decls:
+    /* nothing */       { [] }
+    | decls expr        { $2 :: $1 }
 
 expr:
     arith_ops           { $1 }
