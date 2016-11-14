@@ -1,0 +1,24 @@
+void main(){
+	int x = 5;
+
+	/* creates matrix of size 10 */
+	int[10] t;
+	/* creates matrix of dimension 2 */
+	float[10][10] n;
+	for(int i = 0; i < 10; i = i + 1){
+		t[i] = i;
+	}
+	print(t);
+	/* [0,1,2,3,4,5,6,7,8,9] */
+
+	bool done = false;
+	if( !done ) {
+		print(helloWorld());
+	}
+	/* Should print "Hello World!" */
+
+}
+
+string helloWorld(){
+	return "Hello World!"
+}
