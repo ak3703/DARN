@@ -43,7 +43,7 @@ rule token = parse
 (* Types *)
 |   "true"  { TRUE }    |   "false" { FALSE }   |   "char"  { CHAR }
 |   "int"   { INT }     |   "float" { FLOAT }   |   "bool"  { BOOL }
-| "void"   { VOID }
+| 	"void"   { VOID }
 
 (* Literal *)
 |   ['0'-'9']+ as lxm   { INTLITERAL(int_of_string lxm) }

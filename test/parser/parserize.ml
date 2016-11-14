@@ -31,11 +31,11 @@ let rec string_of_expr = function
     | Noexpr -> ""
 
 let string_of_typ = function
-    Int -> "int"
-  | Bool -> "bool"
-  | Void -> "void"
+    Int -> "type int"
+  | Bool -> "type bool"
+  | Void -> "type void"
 
-let string_of_vdecl (t, id) = string_of_typ t ^ " " ^ id ^ ";\n"
+let string_of_vdecl (t, id) = string_of_typ t ^ " id " ^ id ^ ";\n"
 
 let string_of_program (vars, funcs) =
   String.concat "" (List.map string_of_vdecl vars) ^ "\n" 

@@ -1,7 +1,8 @@
 default: test 
 
 test:
-	cd scanner; make	
+	cd scanner; make
+	cd parser; make	
 	./parser_test.sh
 	./scanner_test.sh
 .PHONY:

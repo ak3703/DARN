@@ -15,7 +15,6 @@ type expr =
     | Binop of expr * bop * expr
     | Unop of uop * expr
     | Assign of expr * expr
-    | Call of string * expr list
     | Noexpr
 
 type stmt = 
