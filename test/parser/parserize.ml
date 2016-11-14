@@ -29,16 +29,19 @@ let rec string_of_expr = function
     bop) ^ " " ^ (string_of_expr r2) ^ " }"
     | Assign(r1, r2) -> "Assign { " ^ (string_of_expr r1) ^ " =  " ^ (string_of_expr r2) ^ " }"
     | Noexpr -> ""
-(* alternate way of printing 
-let string_of_decls decls = 
-    let rec aux acc = function
-         | [] -> sprintf "[%s]" (String.concat " ; " (List.rev acc))
-         | expr :: tl -> aux (string_of_expr expr :: acc) tl
-in aux [] decls 
-*)
+
+let string_of_typ = function
+    Int -> "int"
+  | Bool -> "bool"
+  | Void -> "void"
+
+let string_of_vdecl (t, id) = string_of_typ t ^ " " ^ id ^ ";\n"
+
+let string_of_program (vars, funcs) =
+  String.concat "" (List.map string_of_vdecl vars) ^ "\n" 
 
 let _ =
     let lexbuf = Lexing.from_channel stdin in
-    let decls = Parser.program Scanner.token lexbuf in
-    let result = List.map string_of_expr (List.rev decls) in
-    List.map print_string result
+    let ast = Parser.program Scanner.token lexbuf in
+    let result = string_of_program ast in
+    print_string result

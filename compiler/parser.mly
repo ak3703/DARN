@@ -22,7 +22,7 @@
 %token ASSIGN 
 
 /* Variable Type */
-%token BOOL INT FLOAT CHAR 
+%token BOOL INT FLOAT CHAR VOID
 
 /* Functional Keywords */
 %token RETURN
@@ -49,11 +49,54 @@
 %type <Ast.program> program 
 
 %%
-program: decls EOF { $1 }
+
+program: 
+    decls EOF { $1 }
 
 decls:
-    /* nothing */       { [] }
-    | decls expr        { $2 :: $1 }
+    /* nothing */       { [], []}
+    | decls vdecl       { ($2 :: fst $1), snd $1 }
+    | decls fdecl       { fst $1, ($2 :: snd $1) }
+
+fdecl:
+   typ ID LPAREN formals_opt RPAREN LCURLY vdecl_list stmt_list RCURLY
+     { { typ = $1;
+     fname = $2;
+     formals = $4;
+     locals = List.rev $7;
+     body = List.rev $8 } }
+
+formals_opt:
+    /* nothing */ { [] }
+    | formal_list { List.rev $1 }
+
+formal_list:
+    typ ID  { [($1,$2)] }
+    | formal_list COMMA typ ID { ($3,$4) :: $1 }
+
+typ:
+    INT { Int }
+  | BOOL { Bool }
+  | VOID { Void }
+
+vdecl_list:
+    /* nothing */    { [] }
+  | vdecl_list vdecl { $2 :: $1 }
+
+vdecl:
+   typ ID SEMI { ($1, $2) }
+
+stmt_list:
+    /* nothing */  { [] }
+  | stmt_list stmt { $2 :: $1 }
+
+stmt:
+    expr SEMI { Expr $1 }
+
+expr_opt:
+    /* nothing */ { Noexpr }
+    | expr          { $1 }
+
 
 expr:
     arith_ops           { $1 }

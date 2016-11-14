@@ -1,1 +1,1 @@
-int_lit 12345bool_lit truebool_lit falsevar xBinop { var variable - int_lit 1 }
+var abc

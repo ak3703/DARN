@@ -45,6 +45,7 @@ let tokenize = function
 | INT -> "INT"
 | FLOAT -> "FLOAT"
 | BOOL -> "BOOL"
+| VOID -> "VOID"
 (* Literal *)
 | INTLITERAL(int) -> "INTLITERAL"
 | FLOATLITERAL(float) -> "FLOATLITERAL"
