@@ -8,3 +8,4 @@ test:
 .PHONY:
 clean: 
 	cd scanner; make clean
+	cd parser; make clean
