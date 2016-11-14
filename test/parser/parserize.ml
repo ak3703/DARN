@@ -38,7 +38,7 @@ let string_of_typ = function
 let string_of_vdecl (t, id) = string_of_typ t ^ " id " ^ id ^ ";\n"
 
 let string_of_program (vars, funcs) =
-  String.concat "" (List.map string_of_vdecl vars) ^ "\n" 
+  String.concat "" (List.map string_of_vdecl (List.rev vars)) ^ "\n" 
 
 let _ =
     let lexbuf = Lexing.from_channel stdin in
