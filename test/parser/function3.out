@@ -1,0 +1,10 @@
+
+fdecl { 
+int main(y) {
+vdecl { 
+int id y;
+}
+Assign { var y =  int_lit 4 };
+Binop { int_lit 1 + int_lit 2 };
+} 
+}

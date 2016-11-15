@@ -15,6 +15,7 @@ type expr =
     | Binop of expr * bop * expr
     | Unop of uop * expr
     | Assign of expr * expr
+    | Call of string * expr list
     | Noexpr
 
 type stmt = 
@@ -23,7 +24,7 @@ type stmt =
   | Return of expr
   | If of expr * stmt * stmt
   | For of expr * expr * expr * stmt
-  | While of expr * stmt
+  | While of expr * stmt 
 
 type func_decl = {
 	typ : typ;

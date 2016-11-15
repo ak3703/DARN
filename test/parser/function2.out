@@ -1,0 +1,10 @@
+
+fdecl { 
+bool main(age) {
+vdecl { 
+bool id isTrue;
+}
+Assign { var isTrue =  bool_lit false };
+print(var isTrue);
+} 
+}

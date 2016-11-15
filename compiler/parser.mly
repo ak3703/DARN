@@ -92,7 +92,8 @@ stmt_list:
 
 stmt:
     expr SEMI { Expr $1 }
-
+    /* add conditional statements and return */ 
+    
 expr_opt:
     /* nothing */ { Noexpr }
     | expr          { $1 }
@@ -106,6 +107,7 @@ expr:
     | FLOATLITERAL      {FloatLiteral($1) }
     | TRUE              {BoolLiteral(true)}
     | FALSE             {BoolLiteral(false)}
+    | ID LPAREN actuals_opt RPAREN { Call($1, $3) }
     | ID 			{Id($1)} 
 
 arith_ops:
@@ -124,4 +126,12 @@ bool_ops:
     | expr OR expr      {Binop($1, Or, $3)   }
     | expr AND expr     {Binop($1, And, $3)  } 
     | NOT expr		    {Unop(Not, $2)    }
+
+actuals_opt:
+    /* nothing */ { [] }
+  | actuals_list  { List.rev $1 }
+
+actuals_list:
+    expr                    { [$1] }
+  | actuals_list COMMA expr { $3 :: $1 }
 

@@ -1,0 +1,5 @@
+int main(bool y) { 
+	int y;
+	y = 4;
+	1 + 2; 
+}
