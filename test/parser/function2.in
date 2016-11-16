@@ -1,5 +1,5 @@
 bool main(int age) { 
 	bool isTrue;
 	isTrue = false;
-	print(isTrue);
+	print(1);
 }

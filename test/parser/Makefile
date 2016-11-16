@@ -1,4 +1,4 @@
-OBJS = ../../compiler/scanner.cmo ../../compiler/parser.cmo parserize.cmo
+OBJS = ../../compiler/scanner.cmo ../../compiler/parser.cmo ../../compiler/ast.cmo ../../compiler/semant.cmo parserize.cmo
 INCLUDES =  -I ../../compiler
 
 default: parserize

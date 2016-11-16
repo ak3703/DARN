@@ -5,6 +5,6 @@ vdecl {
 bool id isTrue;
 }
 Assign { var isTrue =  bool_lit false };
-print(var isTrue);
+print(int_lit 1);
 } 
 }
