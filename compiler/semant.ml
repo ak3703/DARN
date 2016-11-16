@@ -107,6 +107,7 @@ let check_function func =
 (* Return the type of an expression or throw an exception *)
 	let rec expr = function
 	     IntLiteral _ -> Int
+      (* Will have to add Float at some point *)
       | BoolLiteral _ -> Bool
       | Id s -> type_of_identifier s
       | Binop(e1, op, e2) as e -> let t1 = expr e1 and t2 = expr e2 in
@@ -126,8 +127,8 @@ let check_function func =
          | _ -> raise (Failure ("Illegal unary operator " ^ string_of_uop op ^
 	  		   string_of_typ t ^ " in " ^ string_of_expr ex)))
       | Noexpr -> Void
-      | Assign(var, e) as ex -> let lt = type_of_identifier var
-                                and rt = expr e in
+      | Assign(e1, e2) as ex -> let lt = expr e1
+                                and rt = expr e2 in
         check_assign lt rt (Failure ("Illegal assignment " ^ string_of_typ lt ^
 				     " = " ^ string_of_typ rt ^ " in " ^ 
 				     string_of_expr ex))
