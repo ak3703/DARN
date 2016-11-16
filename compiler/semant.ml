@@ -2,7 +2,7 @@ open Ast
 
 module StringMap = Map.Make(String)
 
-let check (tuples, matrices, globals, functions) =
+let check (globals, functions) = (*add tuples, matrices as args *)
 
 (* From MicroC *)
 
@@ -49,7 +49,7 @@ report_duplicate (fun n -> "Duplicate global " ^ n) (List.map snd globals);
 (* Check that functions matrix, tuple, print are not defined *)
 
 (* Check function named print is not defined *)
-if List.mem "print" (List.map (fun fd -> fd.name) functions) 
+if List.mem "print" (List.map (fun fd -> fd.fname) functions) 
 then raise (Failure ("Function print may not be defined")) else ();
 
 (* Check that there are no duplicate function names *)
@@ -58,7 +58,7 @@ report_duplicate (fun n -> "Duplicate function " ^ n)
 
 (* Function declaration for a named function *)
 let built_in_decls = StringMap.add "print"
-	{ typ = Void; fname = "print"; formals = [(Int, "x")];
+	{ typ = Void; fname = "print"; formals = [(Int, "x")]; (* change to a String for hello world*)
 	  locals = []; body = [] } (StringMap.singleton "printb" {
 	  typ = Void; fname = "printb"; formals = [(Bool, "x")];
 	  locals = []; body = [] })
@@ -106,23 +106,23 @@ let check_function func =
 (****** Establish the Type of Each Expression, Operator, Function Call, Statement *****)
 (* Return the type of an expression or throw an exception *)
 	let rec expr = function
-	  Literal _ -> Int
-      | BoolLit _ -> Bool
+	     IntLiteral _ -> Int
+      | BoolLiteral _ -> Bool
       | Id s -> type_of_identifier s
       | Binop(e1, op, e2) as e -> let t1 = expr e1 and t2 = expr e2 in
 	(match op with
-          Add | Sub | Mult | Div when t1 = Int && t2 = Int -> Int
-		  | Equal | Neq when t1 = t2 -> Bool
+          Add | Sub | Mul | Div when t1 = Int && t2 = Int -> Int
+		  | Eq | Neq when t1 = t2 -> Bool
 		  | Less | Leq | Greater | Geq when t1 = Int && t2 = Int -> Bool
 		  | And | Or when t1 = Bool && t2 = Bool -> Bool
         		| _ -> raise (Failure ("Illegal binary operator " ^
-             		string_of_typ t1 ^ " " ^ string_of_op op ^ " " ^
+             		string_of_typ t1 ^ " " ^ string_of_bop op ^ " " ^
               		string_of_typ t2 ^ " in " ^ string_of_expr e))
         )
       | Unop(op, e) as ex -> let t = expr e in
 	 (match op with
-	   Neg when t = Int -> Int
-	 | Not when t = Bool -> Bool
+	   (*Neg when t = Int -> Int*)
+	 Not when t = Bool -> Bool
          | _ -> raise (Failure ("Illegal unary operator " ^ string_of_uop op ^
 	  		   string_of_typ t ^ " in " ^ string_of_expr ex)))
       | Noexpr -> Void
