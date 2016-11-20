@@ -12,7 +12,12 @@ esac
 
 echo "yes" | sudo add-apt-repository ppa:$ppa
 sudo apt-get update -qq
-sudo apt-get install -qq ocaml ocaml-native-compilers
+sudo apt-get install lldb-3.6
+sudo apt-get install -qq ocaml ocaml-native-compilers camlp4-extra opam
 
-echo OCaml version
-ocaml -version
+export OPAMYES=1
+opam init 
+opam install llvm.3.6 ocamlfind
+eval `opam config env`
+make
+make test

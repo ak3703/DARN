@@ -4,4 +4,6 @@ env: "OCAML_VERSION=4.01.0 OPAM_VERSION=1.2.0"
 python: "2.7_with_system_site_packages"
 before_install:
     - bash -ex config/ocaml_install.sh
-script: make 
+install:
+    - sudo pip install -r config/requirements.txt
+script: make test
