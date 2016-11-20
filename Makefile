@@ -7,7 +7,7 @@ build:
 
 .PHONY: test clean
 test:
-	cd compiler; make
+	cd compiler; make test;
 	cd test; make
 
 clean:

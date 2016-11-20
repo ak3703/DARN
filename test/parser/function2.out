@@ -4,7 +4,7 @@ bool main(age) {
 vdecl { 
 bool id isTrue;
 }
-Assign { var isTrue =  bool_lit false };
+Assign { isTrue =  bool_lit false };
 print(int_lit 1);
 } 
 }

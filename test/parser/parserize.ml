@@ -27,7 +27,7 @@ let rec string_of_expr = function
     | Unop(uop, r1) -> "Unop { " ^ (string_of_uop uop) ^ " " ^ string_of_expr r1 ^ " }"
     | Binop(r1, bop, r2) -> "Binop { " ^ string_of_expr r1 ^ " " ^ (string_of_bop
     bop) ^ " " ^ (string_of_expr r2) ^ " }"
-    | Assign(r1, r2) -> "Assign { " ^ (string_of_expr r1) ^ " =  " ^ (string_of_expr r2) ^ " }"
+    | Assign(v, r) -> "Assign { " ^ v ^ " =  " ^ (string_of_expr r) ^ " }"
     | Call(f, el) ->
       f ^ "(" ^ String.concat ", " (List.map string_of_expr el) ^ ")"
     | Noexpr -> ""

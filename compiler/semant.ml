@@ -127,8 +127,8 @@ let check_function func =
          | _ -> raise (Failure ("Illegal unary operator " ^ string_of_uop op ^
 	  		   string_of_typ t ^ " in " ^ string_of_expr ex)))
       | Noexpr -> Void
-      | Assign(e1, e2) as ex -> let lt = expr e1
-                                and rt = expr e2 in
+      | Assign(var, e) as ex -> let lt = type_of_identifier var
+                                and rt = expr e in
         check_assign lt rt (Failure ("Illegal assignment " ^ string_of_typ lt ^
 				     " = " ^ string_of_typ rt ^ " in " ^ 
 				     string_of_expr ex))

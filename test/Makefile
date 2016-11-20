@@ -5,6 +5,7 @@ test:
 	cd parser; make	
 	./scanner_test.sh
 	./parser_test.sh
+	./compiler_test.sh
 .PHONY:
 clean: 
 	cd scanner; make clean

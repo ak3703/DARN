@@ -7,7 +7,7 @@ TARFILES = Makefile scanner.mll parser.mly ast.ml darn.ml semant.
 
 .PHONY : darn.native
 
-darn.native :
+darn.native : 
 	ocamlbuild -use-ocamlfind -pkgs llvm,llvm.analysis -cflags -w,+a-4 \
 		darn.native
 
@@ -16,10 +16,18 @@ darn.native :
 .PHONY : clean
 clean :
 	ocamlbuild -clean
-	rm -rf testall.log *.diff darn scanner.ml parser.ml parser.mli
+	rm -rf testall.log *.diff darn test_darn scanner.ml parser.ml parser.mli
 	rm -rf *.cmx *.cmi *.cmo *.cmx *.o
 
 # More detailed: build using ocamlc/ocamlopt + ocamlfind to locate LLVM
+TESTOBJS = parser.cmo scanner.cmo
+
+.PHONY : test
+test : darn.native test_parser_scanner
+
+.PHONY : test_parser_scanner
+
+test_parser_scanner : $(TESTOBJS)
 
 
 OBJS = ast.cmx codegen.cmx parser.cmx scanner.cmx darn.cmx semant.cmx 
