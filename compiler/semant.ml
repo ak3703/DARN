@@ -59,9 +59,11 @@ report_duplicate (fun n -> "Duplicate function " ^ n)
 (* Function declaration for a named function *)
 let built_in_decls = StringMap.add "print"
 	{ typ = Void; fname = "print"; formals = [(Int, "x")]; (* change to a String for hello world*)
-	  locals = []; body = [] } (StringMap.singleton "printb" {
-	  typ = Void; fname = "printb"; formals = [(Bool, "x")];
-	  locals = []; body = [] })
+	  locals = []; body = [] } (StringMap.add "printf"
+  { typ = Void; fname = "printf"; formals = [(Float, "x")];
+    locals = []; body = [] } (StringMap.singleton "printb" 
+  { typ = Void; fname = "printb"; formals = [(Bool, "x")];
+	  locals = []; body = [] }))
 in
 
 (* Built-in functions, print and printb *)
@@ -108,6 +110,7 @@ let check_function func =
 	let rec expr = function
 	     IntLiteral _ -> Int
       (* Will have to add Float at some point *)
+      | FloatLiteral _ -> Float
       | BoolLiteral _ -> Bool
       | Id s -> type_of_identifier s
       | Binop(e1, op, e2) as e -> let t1 = expr e1 and t2 = expr e2 in

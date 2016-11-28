@@ -78,6 +78,7 @@ typ:
     INT { Int }
   | BOOL { Bool }
   | VOID { Void }
+  | FLOAT { Float }
 
 vdecl_list:
     /* nothing */    { [] }

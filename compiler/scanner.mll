@@ -5,7 +5,6 @@ let digit = ['0'-'9']
 let decimal = ['.']
 let float = digit* decimal digit+ | digit+ decimal digit*
 
-
 rule token = parse
 
 (* Whitespace *)

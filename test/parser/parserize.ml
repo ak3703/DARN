@@ -49,6 +49,7 @@ let string_of_typ = function
     Int -> "int"
   | Bool -> "bool"
   | Void -> "void"
+  | Float -> "float"
 
 let string_of_vdecl (t, id) = "vdecl { \n" ^ string_of_typ t ^ " id " ^ id ^ 
   ";\n}\n"
