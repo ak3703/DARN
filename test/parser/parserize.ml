@@ -27,7 +27,8 @@ let rec string_of_expr = function
     | Unop(uop, r1) -> "Unop { " ^ (string_of_uop uop) ^ " " ^ string_of_expr r1 ^ " }"
     | Binop(r1, bop, r2) -> "Binop { " ^ string_of_expr r1 ^ " " ^ (string_of_bop
     bop) ^ " " ^ (string_of_expr r2) ^ " }"
-    | Assign(v, r) -> "Assign { " ^ v ^ " =  " ^ (string_of_expr r) ^ " }"
+    | Assign(r1, r2) -> "Assign { " ^ r1 ^ " =  " ^ (string_of_expr r2) ^ " }"
+    | MatrixAccess(s, r1) -> "Matrix Access { " ^ s ^ (string_of_expr r1) ^ " }"
     | Call(f, el) ->
       f ^ "(" ^ String.concat ", " (List.map string_of_expr el) ^ ")"
     | Noexpr -> ""
@@ -45,11 +46,12 @@ let rec string_of_stmt = function
       string_of_expr e3  ^ ") " ^ string_of_stmt s
   | While(e, s) -> "while (" ^ string_of_expr e ^ ") " ^ string_of_stmt s
 
-let string_of_typ = function
+let rec string_of_typ = function
     Int -> "int"
   | Bool -> "bool"
   | Void -> "void"
   | Float -> "float"
+  | MatrixType(t, i1) -> "matrix { " ^ string_of_typ t ^ " [" ^ string_of_int i1 ^ "] }"
 
 let string_of_vdecl (t, id) = "vdecl { \n" ^ string_of_typ t ^ " id " ^ id ^ 
   ";\n}\n"

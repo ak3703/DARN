@@ -75,10 +75,14 @@ formal_list:
     | formal_list COMMA typ ID { ($3,$4) :: $1 }
 
 typ:
-    INT { Int }
+  INT { Int }
   | BOOL { Bool }
   | VOID { Void }
   | FLOAT { Float }
+  | matrix_typ { $1 }
+
+matrix_typ:
+    typ LBRACK INTLITERAL RBRACK  { MatrixType($1, $3) }
 
 vdecl_list:
     /* nothing */    { [] }
@@ -109,6 +113,7 @@ expr:
     | TRUE              {BoolLiteral(true)}
     | FALSE             {BoolLiteral(false)}
     | ID LPAREN actuals_opt RPAREN { Call($1, $3) }
+    | ID LBRACK expr  RBRACK     { MatrixAccess($1, $3)}
     | ID 			{Id($1)} 
 
 arith_ops:

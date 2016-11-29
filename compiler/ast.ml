@@ -3,7 +3,12 @@ type op = Add | Sub | Mul | Div | Less | Greater
 
 type uop = Not
 
-type typ = Int | Bool | Void | Float
+type typ = 
+    Int 
+    | Bool 
+    | Void 
+    | Float
+    | MatrixType of typ * int
 
 type bind = typ * string
 
@@ -15,6 +20,7 @@ type expr =
     | Binop of expr * op * expr
     | Unop of uop * expr
     | Assign of string * expr
+    | MatrixAccess of string * expr 
     | Call of string * expr list
     | Noexpr
 
@@ -64,6 +70,7 @@ let rec string_of_expr = function
     | Binop(r1, bop, r2) -> "Binop { " ^ string_of_expr r1 ^ " " ^ (string_of_bop
     bop) ^ " " ^ (string_of_expr r2) ^ " }"
     | Assign(r1, r2) -> "Assign { " ^ r1 ^ " =  " ^ (string_of_expr r2) ^ " }"
+    | MatrixAccess(s, r1) -> "Matrix Access { " ^ s ^ (string_of_expr r1) ^ " }"
     | Call(f, el) ->
       f ^ "(" ^ String.concat ", " (List.map string_of_expr el) ^ ")"
     | Noexpr -> ""
@@ -81,11 +88,12 @@ let rec string_of_stmt = function
       string_of_expr e3  ^ ") " ^ string_of_stmt s
   | While(e, s) -> "while (" ^ string_of_expr e ^ ") " ^ string_of_stmt s
 
-let string_of_typ = function
+let rec string_of_typ = function
     Int -> "int"
   | Bool -> "bool"
   | Void -> "void"
   | Float -> "float"
+  | MatrixType(t, i1) -> "matrix { " ^ string_of_typ t ^ " [" ^ string_of_int i1 ^ "] }"
 
 let string_of_vdecl (t, id) = "vdecl { \n" ^ string_of_typ t ^ " id " ^ id ^ 
   ";\n}\n"
