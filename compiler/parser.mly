@@ -106,7 +106,7 @@ expr_opt:
 expr:
     arith_ops           { $1 }
     | bool_ops          { $1 }
-    | ID ASSIGN expr  { Assign($1, $3)  }
+    | expr ASSIGN expr  { Assign($1, $3)  }
     | LPAREN expr RPAREN { $2 }
     | INTLITERAL        {IntLiteral($1)   }
     | FLOATLITERAL      {FloatLiteral($1) }

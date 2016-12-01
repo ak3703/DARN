@@ -1,0 +1,6 @@
+bool main() { 
+	int a;
+	int[5] m;
+	a = 3;
+	m[0+1] = a;
+}

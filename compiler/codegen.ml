@@ -23,6 +23,7 @@ let translate (globals, functions) =
   and i32_t  = L.i32_type  context
   and i8_t   = L.i8_type   context
   and float_t = L.double_type context
+  and array_t   = L.array_type
   and i1_t   = L.i1_type   context
   and void_t = L.void_type context in
 
@@ -30,7 +31,11 @@ let translate (globals, functions) =
       A.Int -> i32_t
     | A.Bool -> i1_t
     | A.Float -> float_t
-    | A.Void -> void_t in
+    | A.Void -> void_t
+    | A.MatrixType(typ, size) -> (match typ with
+                                            A.Int -> array_t i32_t size
+                                          | A.Float -> array_t float_t size
+                                         ) in
 
   (* Declare each global variable; remember its value in a map *)
   let global_vars =
@@ -84,6 +89,13 @@ let translate (globals, functions) =
                    with Not_found -> StringMap.find n global_vars
     in
 
+    let build_matrix_access s i1 i2 builder isAssign =
+      if isAssign
+        then L.build_gep (lookup s) [| i1; i2 |] s builder
+      else
+         L.build_load (L.build_gep (lookup s) [| i1; i2 |] s builder) s builder
+    in
+
     (* Construct code for an expression; return its value *)
     let rec expr builder = function
     A.IntLiteral i -> L.const_int i32_t i
@@ -112,8 +124,12 @@ let translate (globals, functions) =
     let e' = expr builder e in
     (match op with
           | A.Not     -> L.build_not) e' "tmp" builder
-      | A.Assign (s, e) -> let e' = expr builder e in
-                     ignore (L.build_store e' (lookup s) builder); e'
+      | A.Assign (e1, e2) -> let e1' = (match e1 with
+                                            A.Id s -> lookup s
+                                          | A.MatrixAccess (s, e1) -> let i1 = expr builder e1 in build_matrix_access s (L.const_int i32_t 0) i1 builder true
+                                          )
+                            and e2' = expr builder e2 in
+                     ignore (L.build_store e2' e1' builder); e2'
       | A.Call ("print", [e]) | A.Call ("printb", [e]) ->
     L.build_call printf_func [| int_format_str ; (expr builder e) |]
       "printf" builder

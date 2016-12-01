@@ -1,0 +1,9 @@
+
+fdecl { 
+bool main() {
+vdecl { 
+matrix { int [5] } id x;
+}
+Assign { Matrix Access { x[int_lit 0] } =  int_lit 1 };
+} 
+}

@@ -105,6 +105,11 @@ let check_function func =
       try StringMap.find s symbols
       with Not_found -> raise (Failure ("undeclared identifier " ^ s))
     in
+
+    let matrix_acces_type = function
+      MatrixType(t, _) -> t
+      | _ -> raise (Failure ("illegal matrix access") )
+    in
 (****** Establish the Type of Each Expression, Operator, Function Call, Statement *****)
 (* Return the type of an expression or throw an exception *)
 	let rec expr = function
@@ -113,6 +118,10 @@ let check_function func =
       | FloatLiteral _ -> Float
       | BoolLiteral _ -> Bool
       | Id s -> type_of_identifier s
+      | MatrixAccess(s, e1) -> let _ = (match (expr e1) with
+                                          Int -> Int
+                                        | _ -> raise (Failure ("attempting to access with a non-integer type"))) in
+                               matrix_acces_type (type_of_identifier s)
       | Binop(e1, op, e2) as e -> let t1 = expr e1 and t2 = expr e2 in
 	(match op with
           Add | Sub | Mul | Div when t1 = Int && t2 = Int -> Int
@@ -130,8 +139,17 @@ let check_function func =
          | _ -> raise (Failure ("Illegal unary operator " ^ string_of_uop op ^
 	  		   string_of_typ t ^ " in " ^ string_of_expr ex)))
       | Noexpr -> Void
-      | Assign(var, e) as ex -> let lt = type_of_identifier var
-                                and rt = expr e in
+      | Assign(e1, e2) as ex -> let lt = ( match e1 with
+                                            | MatrixAccess(s, _) -> (match (type_of_identifier s) with
+                                                                      MatrixType(t, _) -> (match t with
+                                                                                                    Int -> Int
+                                                                                                  | Float -> Float
+                                                                                                  | _ -> raise ( Failure ("illegal matrix of matrices") )
+                                                                                                )
+                                                                      | _ -> raise ( Failure ("cannot access a primitive") )
+                                                                   )
+                                            | _ -> expr e1)
+                                and rt = expr e2 in
         check_assign lt rt (Failure ("Illegal assignment " ^ string_of_typ lt ^
 				     " = " ^ string_of_typ rt ^ " in " ^ 
 				     string_of_expr ex))
