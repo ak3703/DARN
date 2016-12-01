@@ -1,0 +1,3 @@
+exception UnsupportedMatrixType
+
+exception IllegalAssignment
