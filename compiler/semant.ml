@@ -114,9 +114,9 @@ let check_function func =
 (* Return the type of an expression or throw an exception *)
 	let rec expr = function
 	     IntLiteral _ -> Int
-      (* Will have to add Float at some point *)
       | FloatLiteral _ -> Float
       | BoolLiteral _ -> Bool
+      | CharLiteral _ -> Char
       | Id s -> type_of_identifier s
       | MatrixAccess(s, e1) -> let _ = (match (expr e1) with
                                           Int -> Int

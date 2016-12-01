@@ -36,3 +36,5 @@ bool
 2
 2.0
 hello
+'a'
+"this is a string"

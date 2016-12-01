@@ -33,6 +33,8 @@
 /* Literals */
 %token <int> INTLITERAL
 %token <float> FLOATLITERAL
+%token <string> STRINGLITERAL
+%token <char> CHARLITERAL
 
 %token <string> ID
 
@@ -79,6 +81,7 @@ typ:
   | BOOL { Bool }
   | VOID { Void }
   | FLOAT { Float }
+  | CHAR { Char }
   | matrix_typ { $1 }
 
 matrix_typ:
@@ -110,6 +113,7 @@ expr:
     | LPAREN expr RPAREN { $2 }
     | INTLITERAL        {IntLiteral($1)   }
     | FLOATLITERAL      {FloatLiteral($1) }
+    | CHARLITERAL        { CharLiteral($1) }
     | TRUE              {BoolLiteral(true)}
     | FALSE             {BoolLiteral(false)}
     | ID LPAREN actuals_opt RPAREN { Call($1, $3) }

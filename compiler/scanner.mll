@@ -1,9 +1,24 @@
-{ open Parser }
+{ 
 
-let letter = ['a'-'z' 'A'-'Z']
-let digit = ['0'-'9']
+	open Parser 
+
+	let unescape s =
+    	Scanf.sscanf ("\"" ^ s ^ "\"") "%S%!" (fun x -> x)
+
+}
+let whitespace = [' ' '\t' '\r' '\n']
+let esc = '\\' ['\\' ''' '"' 'n' 'r' 't']
+let esc_ch = ''' (esc) '''
+let ascii = ([' '-'!' '#'-'[' ']'-'~'])
+let digits = ['0'-'9']
+let alphabet = ['a'-'z' 'A'-'Z']
+let alphanumund = alphabet | digits | '_'
+let integer = digits+
 let decimal = ['.']
-let float = digit* decimal digit+ | digit+ decimal digit*
+let float = digits* decimal digits+ | digits+ decimal digits*
+let string = '"' ( (ascii | esc)* as s ) '"'
+let char = ''' ( ascii | digits ) '''
+let id = alphabet alphanumund*
 
 rule token = parse
 
@@ -47,7 +62,9 @@ rule token = parse
 (* Literal *)
 |   ['0'-'9']+ as lxm   { INTLITERAL(int_of_string lxm) }
 |   float as lxm        { FLOATLITERAL(float_of_string lxm) }
-|   ['a'-'z' 'A'-'Z']['a'-'z' 'A'-'Z' '0'-'9' '_']* as lxm  {ID(lxm)}
+| 	string       				{ STRINGLITERAL(unescape s) }
+| 	char    as lxm { CHARLITERAL(String.get lxm 1) }
+|   id      as lxm { ID(lxm) }
 
 (* EOF *)
 |   eof { EOF }

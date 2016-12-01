@@ -50,6 +50,8 @@ let tokenize = function
 | INTLITERAL(int) -> "INTLITERAL"
 | FLOATLITERAL(float) -> "FLOATLITERAL"
 | ID(string) -> "ID"
+| CHARLITERAL(char) -> "CHARLITERAL"
+| STRINGLITERAL(string) -> "STRINGLITERAL"
 | EOF -> "EOF"
 
 let _ =
