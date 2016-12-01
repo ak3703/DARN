@@ -1,0 +1,5 @@
+int main() { 
+	int[5] m;
+	m[1] = 0;
+	print(m[1]);
+}

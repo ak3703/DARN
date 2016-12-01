@@ -103,6 +103,7 @@ let translate (globals, functions) =
       | A.BoolLiteral b -> L.const_int i1_t (if b then 1 else 0)
       | A.Noexpr -> L.const_int i32_t 0
       | A.Id s -> L.build_load (lookup s) s builder
+      | A.MatrixAccess (s, e1) -> let i1 = expr builder e1 in build_matrix_access s (L.const_int i32_t 0) i1 builder false
       | A.Binop (e1, op, e2) ->
     let e1' = expr builder e1
     and e2' = expr builder e2 in
