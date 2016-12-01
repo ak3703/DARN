@@ -62,15 +62,15 @@ let string_of_uop = function
 
 (* string print tree*)
 let rec string_of_expr = function
-    IntLiteral(i) -> "int_lit " ^ string_of_int i
-    | FloatLiteral(i) -> "float_lit " ^ string_of_float i
-    | BoolLiteral(i) -> "bool_lit " ^ string_of_bool i
-    | Id(i) -> "var " ^ i
-    | Unop(uop, r1) -> "Unop { " ^ (string_of_uop uop) ^ " " ^ string_of_expr r1 ^ " }"
-    | Binop(r1, bop, r2) -> "Binop { " ^ string_of_expr r1 ^ " " ^ (string_of_bop
-    bop) ^ " " ^ (string_of_expr r2) ^ " }"
-    | Assign(r1, r2) -> "Assign { " ^ (string_of_expr r1) ^ " =  " ^ (string_of_expr r2) ^ " }"
-    | MatrixAccess(s, r1) -> "Matrix Access { " ^ s ^ "[" ^ (string_of_expr r1) ^ "] }"
+    IntLiteral(i) -> string_of_int i
+    | FloatLiteral(i) -> string_of_float i
+    | BoolLiteral(i) -> string_of_bool i
+    | Id(i) -> i
+    | Unop(uop, r1) -> (string_of_uop uop) ^ string_of_expr r1
+    | Binop(r1, bop, r2) -> string_of_expr r1 ^ " " ^ (string_of_bop
+    bop) ^ " " ^ (string_of_expr r2)
+    | Assign(r1, r2) -> (string_of_expr r1) ^ " =  " ^ (string_of_expr r2) 
+    | MatrixAccess(s, r1) -> s ^ "[" ^ (string_of_expr r1) ^ "]"
     | Call(f, el) ->
       f ^ "(" ^ String.concat ", " (List.map string_of_expr el) ^ ")"
     | Noexpr -> ""
@@ -93,18 +93,17 @@ let rec string_of_typ = function
   | Bool -> "bool"
   | Void -> "void"
   | Float -> "float"
-  | MatrixType(t, i1) -> "matrix { " ^ string_of_typ t ^ " [" ^ string_of_int i1 ^ "] }"
+  | MatrixType(t, i1) -> string_of_typ t ^ "[" ^ string_of_int i1 ^ "]"
 
-let string_of_vdecl (t, id) = "vdecl { \n" ^ string_of_typ t ^ " id " ^ id ^ 
-  ";\n}\n"
+let string_of_vdecl (t, id) = string_of_typ t ^ " " ^ id ^ ";\n"
 
 let string_of_fdecl fdecl =
-  "fdecl { \n" ^ string_of_typ fdecl.typ ^ " " ^
+  string_of_typ fdecl.typ ^ " " ^
   fdecl.fname ^ "(" ^ String.concat ", " (List.map snd fdecl.formals) ^
-  ") {\n" ^
+  ")\n{\n" ^
   String.concat "" (List.map string_of_vdecl fdecl.locals) ^
   String.concat "" (List.map string_of_stmt fdecl.body) ^
-  "} \n}\n"
+  "} \n"
 
 let string_of_program (vars, funcs) =
   String.concat "" (List.map string_of_vdecl vars) ^ "\n" ^
