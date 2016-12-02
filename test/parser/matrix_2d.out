@@ -1,0 +1,8 @@
+
+fdecl { 
+bool main() {
+vdecl { 
+matrix { int [2][1] } id m;
+}
+} 
+}
