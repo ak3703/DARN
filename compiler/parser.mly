@@ -102,6 +102,8 @@ stmt_list:
 
 stmt:
     expr SEMI { Expr $1 }
+    | RETURN SEMI { Return Noexpr }
+    | RETURN expr SEMI { Return $2 }
     | LCURLY stmt_list RCURLY { Block(List.rev $2) }
     | IF LPAREN expr RPAREN stmt %prec NOELSE { If($3, $5, Block([])) }
     | IF LPAREN expr RPAREN stmt ELSE stmt    { If($3, $5, $7) }
