@@ -24,6 +24,7 @@ let rec string_of_expr = function
     | FloatLiteral(i) -> "float_lit " ^ string_of_float i
     | BoolLiteral(i) -> "bool_lit " ^ string_of_bool i
     | CharLiteral(i) -> "char_lit " ^ String.make 1 i
+    | StringLiteral(i) -> i
     | Id(i) -> "var " ^ i
     | Unop(uop, r1) -> "Unop { " ^ (string_of_uop uop) ^ " " ^ string_of_expr r1 ^ " }"
     | Binop(r1, bop, r2) -> "Binop { " ^ string_of_expr r1 ^ " " ^ (string_of_bop
@@ -53,6 +54,7 @@ let rec string_of_typ = function
   | Char -> "char"
   | Void -> "void"
   | Float -> "float"
+  | String -> "string"
   | MatrixType(t, i1) -> "matrix { " ^ string_of_typ t ^ " [" ^ string_of_int i1 ^ "] }"
 
 let string_of_vdecl (t, id) = "vdecl { \n" ^ string_of_typ t ^ " id " ^ id ^ 

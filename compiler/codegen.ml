@@ -24,6 +24,7 @@ let translate (globals, functions) =
   and i32_t  = L.i32_type  context
   and i8_t   = L.i8_type   context
   and float_t = L.double_type context
+  and pointer_t = L.pointer_type
   and array_t   = L.array_type
   and i1_t   = L.i1_type   context
   and void_t = L.void_type context in
@@ -33,6 +34,7 @@ let translate (globals, functions) =
     | A.Bool -> i1_t
     | A.Float -> float_t
     | A.Char   -> i8_t
+    | A.String -> pointer_t i8_t
     | A.Void -> void_t
     | A.MatrixType(typ, size) -> (match typ with
                                             A.Int -> array_t i32_t size
@@ -106,6 +108,7 @@ let translate (globals, functions) =
       | A.FloatLiteral f -> L.const_float float_t f
       | A.BoolLiteral b -> L.const_int i1_t (if b then 1 else 0)
       | A.CharLiteral c -> L.const_int i8_t (Char.code c)
+      | A.StringLiteral s -> L.const_string context s
       | A.Noexpr -> L.const_int i32_t 0
       | A.Id s -> L.build_load (lookup s) s builder
       | A.MatrixAccess (s, e1) -> let i1 = expr builder e1 in build_matrix_access s (L.const_int i32_t 0) i1 builder false
@@ -142,6 +145,10 @@ let translate (globals, functions) =
       "printf" builder
       | A.Call ("printf", [e]) ->
     L.build_call printf_func [| float_format_str ; (expr builder e) |]
+      "printf" builder
+      | A.Call ("prints", [e]) -> let get_string = function A.StringLiteral s -> s | _ -> "" in
+      let s_ptr = L.build_global_stringptr ((get_string e) ^ "\n") ".str" builder in
+    L.build_call printf_func [| s_ptr |] 
       "printf" builder
       | A.Call (f, act) ->
          let (fdef, fdecl) = StringMap.find f function_decls in

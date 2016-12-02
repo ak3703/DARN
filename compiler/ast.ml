@@ -9,6 +9,7 @@ type typ =
     | Void 
     | Float
     | Char
+    | String
     | MatrixType of typ * int
 
 type bind = typ * string
@@ -18,6 +19,7 @@ type expr =
     | FloatLiteral of float
     | BoolLiteral of bool
     | CharLiteral of char
+    | StringLiteral of string
     | Id of string
     | Binop of expr * op * expr
     | Unop of uop * expr
@@ -68,6 +70,7 @@ let rec string_of_expr = function
     | FloatLiteral(i) -> string_of_float i
     | BoolLiteral(i) -> string_of_bool i
     | CharLiteral(i) ->  String.make 1 i
+    | StringLiteral(i) -> i
     | Id(i) -> i
     | Unop(uop, r1) -> (string_of_uop uop) ^ string_of_expr r1
     | Binop(r1, bop, r2) -> string_of_expr r1 ^ " " ^ (string_of_bop
@@ -97,6 +100,7 @@ let rec string_of_typ = function
   | Void -> "void"
   | Float -> "float"
   | Char -> "char"
+  | String -> "string"
   | MatrixType(t, i1) -> string_of_typ t ^ "[" ^ string_of_int i1 ^ "]"
 
 let string_of_vdecl (t, id) = string_of_typ t ^ " " ^ id ^ ";\n"

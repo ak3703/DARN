@@ -61,9 +61,11 @@ let built_in_decls = StringMap.add "print"
 	{ typ = Void; fname = "print"; formals = [(Int, "x")]; (* change to a String for hello world*)
 	  locals = []; body = [] } (StringMap.add "printf"
   { typ = Void; fname = "printf"; formals = [(Float, "x")];
+    locals = []; body = [] } (StringMap.add "prints"
+  { typ = Void; fname = "prints"; formals = [(String, "x")];
     locals = []; body = [] } (StringMap.singleton "printb" 
   { typ = Void; fname = "printb"; formals = [(Bool, "x")];
-	  locals = []; body = [] }))
+	  locals = []; body = [] })))
 in
 
 (* Built-in functions, print and printb *)
@@ -117,6 +119,7 @@ let check_function func =
       | FloatLiteral _ -> Float
       | BoolLiteral _ -> Bool
       | CharLiteral _ -> Char
+      | StringLiteral _ -> String
       | Id s -> type_of_identifier s
       | MatrixAccess(s, e1) -> let _ = (match (expr e1) with
                                           Int -> Int

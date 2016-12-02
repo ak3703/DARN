@@ -114,6 +114,7 @@ expr:
     | INTLITERAL        {IntLiteral($1)   }
     | FLOATLITERAL      {FloatLiteral($1) }
     | CHARLITERAL        { CharLiteral($1) }
+    | STRINGLITERAL     { StringLiteral($1)}
     | TRUE              {BoolLiteral(true)}
     | FALSE             {BoolLiteral(false)}
     | ID LPAREN actuals_opt RPAREN { Call($1, $3) }
