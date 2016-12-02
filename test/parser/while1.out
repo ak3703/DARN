@@ -1,0 +1,7 @@
+
+fdecl { 
+int main() {
+while (bool_lit true) {
+}
+} 
+}

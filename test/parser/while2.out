@@ -1,0 +1,12 @@
+
+fdecl { 
+int main() {
+vdecl { 
+int id a;
+}
+Assign { var a =  int_lit 0 };
+while (Binop { var a < int_lit 5 }) {
+Assign { var a =  Binop { var a + int_lit 1 } };
+}
+} 
+}
