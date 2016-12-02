@@ -1,8 +1,5 @@
 
-fdecl { 
-bool main() {
-vdecl { 
-matrix { int [5] } id x;
-}
+bool main()
+{
+int[5] x;
 } 
-}

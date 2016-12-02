@@ -1,10 +1,7 @@
 
-fdecl { 
-bool main(age) {
-vdecl { 
-bool id isTrue;
-}
-Assign { var isTrue =  bool_lit false };
-print(int_lit 1);
+bool main(age)
+{
+bool isTrue;
+isTrue =  false;
+print(1);
 } 
-}

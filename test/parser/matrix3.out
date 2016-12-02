@@ -1,13 +1,8 @@
 
-fdecl { 
-bool main() {
-vdecl { 
-int id a;
-}
-vdecl { 
-matrix { int [5] } id m;
-}
-Assign { var a =  int_lit 3 };
-Assign { Matrix Access { m[Binop { int_lit 0 + int_lit 1 }] } =  var a };
+bool main()
+{
+int a;
+int[5] m;
+a =  3;
+m[0 + 1] =  a;
 } 
-}

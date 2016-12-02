@@ -1,5 +1,4 @@
 
-fdecl { 
-int main() {
+int main()
+{
 } 
-}
