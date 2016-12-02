@@ -1,7 +1,6 @@
 
-fdecl { 
-int main() {
-while (bool_lit true) {
+int main()
+{
+while (true) {
 }
 } 
-}

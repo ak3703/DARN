@@ -1,12 +1,9 @@
 
-fdecl { 
-int main() {
-vdecl { 
-int id a;
-}
-Assign { var a =  int_lit 0 };
-while (Binop { var a < int_lit 5 }) {
-Assign { var a =  Binop { var a + int_lit 1 } };
+int main()
+{
+int a;
+a =  0;
+while (a < 5) {
+a =  a + 1;
 }
 } 
-}
