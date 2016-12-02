@@ -1,0 +1,11 @@
+
+fdecl { 
+int main() {
+vdecl { 
+int id i;
+}
+for (Assign { var i =  int_lit 0 } ; Binop { var i < int_lit 5 } ; Assign { var i =  Binop { var i + int_lit 1 } }) {
+print(int_lit 1);
+}
+} 
+}
