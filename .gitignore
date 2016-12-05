@@ -7,3 +7,7 @@ parser.ml
 scanner.ml
 .DS_Store
 .gitignore.swp
+compiler/_build/*
+compiler/darn.native
+test/parser/parserize
+test/scanner/tokenize
