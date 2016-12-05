@@ -1,0 +1,6 @@
+int main() {
+	float x;
+	x = 4.0;
+	printf(x);
+
+}
