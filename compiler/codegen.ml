@@ -41,7 +41,19 @@ let translate (globals, functions) =
                                           | A.Float -> array_t float_t size
                                           | A.Bool -> array_t i1_t size
                                           | _ -> raise ( UnsupportedMatrixType )
-                                         ) in
+                                         ) 
+    | A.Matrix2DType(typ, size1, size2) -> (match typ with
+                                            A.Int -> array_t (array_t i32_t size2) size1
+                                          | A.Float -> array_t (array_t float_t size2) size1
+                                          | A.Matrix1DType(typ1, size3) -> (match typ1 with
+                                                                         | A.Int -> array_t (array_t (array_t i32_t size3) size2) size1
+                                                                         | A.Float -> array_t (array_t (array_t float_t size3) size2) size1
+                                                                         | _ -> raise (UnsupportedMatrixType)
+                                                                        )
+                                          | _ -> raise ( UnsupportedMatrixType )
+                                         )
+
+  in
 
   (* Declare each global variable; remember its value in a map *)
   let global_vars =
@@ -95,11 +107,18 @@ let translate (globals, functions) =
                    with Not_found -> StringMap.find n global_vars
     in
 
-    let build_matrix_access s i1 i2 builder isAssign =
+    let build_1D_matrix_access s i1 i2 builder isAssign =
       if isAssign
         then L.build_gep (lookup s) [| i1; i2 |] s builder
       else
          L.build_load (L.build_gep (lookup s) [| i1; i2 |] s builder) s builder
+    in
+
+    let build_2D_matrix_access s i1 i2 i3 builder isAssign =
+      if isAssign
+        then L.build_gep (lookup s) [| i1; i2; i3 |] s builder
+      else
+         L.build_load (L.build_gep (lookup s) [| i1; i2; i3 |] s builder) s builder
     in
 
     (* Construct code for an expression; return its value *)
@@ -111,7 +130,8 @@ let translate (globals, functions) =
       | A.StringLiteral s -> L.const_string context s
       | A.Noexpr -> L.const_int i32_t 0
       | A.Id s -> L.build_load (lookup s) s builder
-      | A.Matrix1DAccess (s, e1) -> let i1 = expr builder e1 in build_matrix_access s (L.const_int i32_t 0) i1 builder false
+      | A.Matrix1DAccess (s, e1) -> let i1 = expr builder e1 in build_1D_matrix_access s (L.const_int i32_t 0) i1 builder false
+      | A.Matrix2DAccess (s, e1, e2) -> let i1 = expr builder e1 and i2 = expr builder e2 in build_2D_matrix_access s (L.const_int i32_t 0) i1 i2 builder false
       | A.Binop (e1, op, e2) ->
     let e1' = expr builder e1
     and e2' = expr builder e2 in
@@ -135,7 +155,8 @@ let translate (globals, functions) =
           | A.Not     -> L.build_not) e' "tmp" builder
       | A.Assign (e1, e2) -> let e1' = (match e1 with
                                             A.Id s -> lookup s
-                                          | A.Matrix1DAccess (s, e1) -> let i1 = expr builder e1 in build_matrix_access s (L.const_int i32_t 0) i1 builder true
+                                          | A.Matrix1DAccess (s, e1) -> let i1 = expr builder e1 in build_1D_matrix_access s (L.const_int i32_t 0) i1 builder true
+                                          | A.Matrix2DAccess (s, e1, e2) -> let i1 = expr builder e1 and i2 = expr builder e2 in build_2D_matrix_access s (L.const_int i32_t 0) i1 i2 builder true
                                           | _ -> raise (IllegalAssignment)
                                           )
                             and e2' = expr builder e2 in

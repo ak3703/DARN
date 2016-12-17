@@ -159,6 +159,15 @@ let check_function func =
                                                                                                 )
                                                                       | _ -> raise ( Failure ("cannot access a primitive") )
                                                                    )
+                                            | Matrix2DAccess(s, _, _) -> (match (type_of_identifier s) with
+                                                                      Matrix2DType(t, _, _) -> (match t with
+                                                                                                    Int -> Int
+                                                                                                  | Float -> Float
+                                                                                                  | Matrix1DType(p, l) -> Matrix1DType(p, l)
+                                                                                                  | _ -> raise ( Failure ("illegal matrix of matrices") )
+                                                                                                )
+                                                                      | _ -> raise ( Failure ("cannot access a primitive") )
+                                                                   )
                                             | _ -> expr e1)
                                 and rt = expr e2 in
         check_assign lt rt (Failure ("Illegal assignment " ^ string_of_typ lt ^
