@@ -40,6 +40,8 @@
 
 %nonassoc NOELSE
 %nonassoc ELSE
+%nonassoc NOLBRACK
+%nonassoc LBRACK
 %right ASSIGN
 %left OR
 %left AND
@@ -84,10 +86,14 @@ typ:
   | VOID { Void }
   | FLOAT { Float }
   | CHAR { Char }
-  | matrix_typ { $1 }
+  | matrix1D_typ { $1 }
+  | matrix2D_typ { $1 }
 
-matrix_typ:
-    typ LBRACK INTLITERAL RBRACK  { MatrixType($1, $3) }
+matrix1D_typ:
+    typ LBRACK INTLITERAL RBRACK %prec NOLBRACK  { Matrix1DType($1, $3) }
+
+matrix2D_typ:
+    typ LBRACK INTLITERAL RBRACK LBRACK INTLITERAL RBRACK  { Matrix2DType($1, $3, $6) }
 
 vdecl_list:
     /* nothing */    { [] }
@@ -127,7 +133,8 @@ expr:
     | TRUE              {BoolLiteral(true)}
     | FALSE             {BoolLiteral(false)}
     | ID LPAREN actuals_opt RPAREN { Call($1, $3) }
-    | ID LBRACK expr  RBRACK     { MatrixAccess($1, $3)}
+    | ID LBRACK expr  RBRACK %prec NOLBRACK    { Matrix1DAccess($1, $3)}
+    | ID LBRACK expr  RBRACK LBRACK expr  RBRACK   { Matrix2DAccess($1, $3, $6)}
     | ID 			{Id($1)} 
 
 arith_ops:

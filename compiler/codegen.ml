@@ -36,7 +36,7 @@ let translate (globals, functions) =
     | A.Char   -> i8_t
     | A.String -> pointer_t i8_t
     | A.Void -> void_t
-    | A.MatrixType(typ, size) -> (match typ with
+    | A.Matrix1DType(typ, size) -> (match typ with
                                             A.Int -> array_t i32_t size
                                           | A.Float -> array_t float_t size
                                           | A.Bool -> array_t i1_t size
@@ -111,7 +111,7 @@ let translate (globals, functions) =
       | A.StringLiteral s -> L.const_string context s
       | A.Noexpr -> L.const_int i32_t 0
       | A.Id s -> L.build_load (lookup s) s builder
-      | A.MatrixAccess (s, e1) -> let i1 = expr builder e1 in build_matrix_access s (L.const_int i32_t 0) i1 builder false
+      | A.Matrix1DAccess (s, e1) -> let i1 = expr builder e1 in build_matrix_access s (L.const_int i32_t 0) i1 builder false
       | A.Binop (e1, op, e2) ->
     let e1' = expr builder e1
     and e2' = expr builder e2 in
@@ -135,7 +135,7 @@ let translate (globals, functions) =
           | A.Not     -> L.build_not) e' "tmp" builder
       | A.Assign (e1, e2) -> let e1' = (match e1 with
                                             A.Id s -> lookup s
-                                          | A.MatrixAccess (s, e1) -> let i1 = expr builder e1 in build_matrix_access s (L.const_int i32_t 0) i1 builder true
+                                          | A.Matrix1DAccess (s, e1) -> let i1 = expr builder e1 in build_matrix_access s (L.const_int i32_t 0) i1 builder true
                                           | _ -> raise (IllegalAssignment)
                                           )
                             and e2' = expr builder e2 in

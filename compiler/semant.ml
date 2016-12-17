@@ -109,7 +109,8 @@ let check_function func =
     in
 
     let matrix_acces_type = function
-      MatrixType(t, _) -> t
+      Matrix1DType(t, _) -> t
+      | Matrix2DType(t, _, _) -> t
       | _ -> raise (Failure ("illegal matrix access") )
     in
 (****** Establish the Type of Each Expression, Operator, Function Call, Statement *****)
@@ -121,7 +122,14 @@ let check_function func =
       | CharLiteral _ -> Char
       | StringLiteral _ -> String
       | Id s -> type_of_identifier s
-      | MatrixAccess(s, e1) -> let _ = (match (expr e1) with
+      | Matrix1DAccess(s, e1) -> let _ = (match (expr e1) with
+                                          Int -> Int
+                                        | _ -> raise (Failure ("attempting to access with a non-integer type"))) in
+                               matrix_acces_type (type_of_identifier s)
+      | Matrix2DAccess(s, e1, e2) -> let _ = (match (expr e1) with
+                                          Int -> Int
+                                        | _ -> raise (Failure ("attempting to access with a non-integer type")))
+                               and _ = (match (expr e2) with
                                           Int -> Int
                                         | _ -> raise (Failure ("attempting to access with a non-integer type"))) in
                                matrix_acces_type (type_of_identifier s)
@@ -143,8 +151,8 @@ let check_function func =
 	  		   string_of_typ t ^ " in " ^ string_of_expr ex)))
       | Noexpr -> Void
       | Assign(e1, e2) as ex -> let lt = ( match e1 with
-                                            | MatrixAccess(s, _) -> (match (type_of_identifier s) with
-                                                                      MatrixType(t, _) -> (match t with
+                                            | Matrix1DAccess(s, _) -> (match (type_of_identifier s) with
+                                                                      Matrix1DType(t, _) -> (match t with
                                                                                                     Int -> Int
                                                                                                   | Float -> Float
                                                                                                   | _ -> raise ( Failure ("illegal matrix of matrices") )

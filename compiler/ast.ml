@@ -10,7 +10,8 @@ type typ =
     | Float
     | Char
     | String
-    | MatrixType of typ * int
+    | Matrix1DType of typ * int
+    | Matrix2DType of typ * int * int
 
 type bind = typ * string
 
@@ -24,7 +25,8 @@ type expr =
     | Binop of expr * op * expr
     | Unop of uop * expr
     | Assign of expr * expr
-    | MatrixAccess of string * expr 
+    | Matrix1DAccess of string * expr 
+    | Matrix2DAccess of string * expr * expr
     | Call of string * expr list
     | Noexpr
 
@@ -76,7 +78,8 @@ let rec string_of_expr = function
     | Binop(r1, bop, r2) -> string_of_expr r1 ^ " " ^ (string_of_bop
     bop) ^ " " ^ (string_of_expr r2)
     | Assign(r1, r2) -> (string_of_expr r1) ^ " =  " ^ (string_of_expr r2) 
-    | MatrixAccess(s, r1) -> s ^ "[" ^ (string_of_expr r1) ^ "]"
+    | Matrix1DAccess(s, r1) -> s ^ "[" ^ (string_of_expr r1) ^ "]"
+    | Matrix2DAccess(s, r1, r2) -> s ^ "[" ^ (string_of_expr r1) ^ "]" ^ "[" ^ (string_of_expr r2) ^ "]"
     | Call(f, el) ->
       f ^ "(" ^ String.concat ", " (List.map string_of_expr el) ^ ")"
     | Noexpr -> ""
@@ -101,7 +104,8 @@ let rec string_of_typ = function
   | Float -> "float"
   | Char -> "char"
   | String -> "string"
-  | MatrixType(t, i1) -> string_of_typ t ^ "[" ^ string_of_int i1 ^ "]"
+  | Matrix1DType(t, i1) -> string_of_typ t ^ "[" ^ string_of_int i1 ^ "]"
+  | Matrix2DType(t, i1, i2) -> string_of_typ t ^ "[" ^ string_of_int i1 ^ "]" ^ "[" ^ string_of_int i2 ^ "]"
 
 let string_of_vdecl (t, id) = string_of_typ t ^ " " ^ id ^ ";\n"
 
