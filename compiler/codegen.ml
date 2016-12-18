@@ -40,6 +40,11 @@ let translate (globals, functions) =
                                             A.Int -> array_t i32_t size
                                           | A.Float -> array_t float_t size
                                           | A.Bool -> array_t i1_t size
+                                          | A.Matrix2DType(typ, size1, size2) -> (match typ with
+                                                                                  A.Int -> array_t (array_t i32_t size2) size1
+                                                                                | A.Float -> array_t (array_t float_t size2) size1
+                                                                                | _ -> raise ( UnsupportedMatrixType )
+                                                                              )
                                           | _ -> raise ( UnsupportedMatrixType )
                                          ) 
     | A.Matrix2DType(typ, size1, size2) -> (match typ with
