@@ -1,0 +1,7 @@
+int b;
+int a;
+int b; /* duplicate global */
+
+int main() {
+	return 0;
+}
