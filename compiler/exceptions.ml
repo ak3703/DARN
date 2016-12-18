@@ -1,3 +1,5 @@
 exception UnsupportedMatrixType
 
 exception IllegalAssignment
+
+exception IllegalPointerType

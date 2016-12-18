@@ -37,3 +37,5 @@ bool
 hello
 'a'
 "this is a string"
+#
+&

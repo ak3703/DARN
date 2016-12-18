@@ -113,6 +113,22 @@ let check_function func =
       | Matrix2DType(t, _, _) -> t
       | _ -> raise (Failure ("illegal matrix access") )
     in
+
+    let check_matrix1D_pointer_type = function
+      Matrix1DType(p, _) -> Matrix1DPointer(p)
+      | _ -> raise ( Failure ("cannont reference non-1Dmatrix pointer type"))
+    in
+
+    let check_matrix2D_pointer_type = function
+      Matrix2DType(p, _, _) -> Matrix2DPointer(p)
+      | _ -> raise ( Failure ("cannont reference non-2Dmatrix pointer type"))
+    in
+
+    let pointer_type = function
+    | Matrix1DPointer(t) -> t
+    | Matrix2DPointer(t) -> t
+    | _ -> raise ( Failure ("cannot dereference a non-pointer type")) in
+
 (****** Establish the Type of Each Expression, Operator, Function Call, Statement *****)
 (* Return the type of an expression or throw an exception *)
 	let rec expr = function
@@ -133,6 +149,9 @@ let check_function func =
                                           Int -> Int
                                         | _ -> raise (Failure ("attempting to access with a non-integer type"))) in
                                matrix_acces_type (type_of_identifier s)
+      | Dereference(s) -> pointer_type (type_of_identifier s)
+      | Matrix1DReference(s) -> check_matrix1D_pointer_type( type_of_identifier s )
+      | Matrix2DReference(s) -> check_matrix2D_pointer_type( type_of_identifier s )
       | Binop(e1, op, e2) as e -> let t1 = expr e1 and t2 = expr e2 in
 	(match op with
           Add | Sub | Mul | Div when t1 = Int && t2 = Int -> Int

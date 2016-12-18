@@ -57,6 +57,14 @@ let translate (globals, functions) =
                                                                         )
                                           | _ -> raise ( UnsupportedMatrixType )
                                          )
+    | A.Matrix1DPointer(t) -> (match t with
+                                   A.Int -> pointer_t i32_t
+                                 | A.Float -> pointer_t float_t
+                                 | _ -> raise (IllegalPointerType))
+    | A.Matrix2DPointer(t) -> (match t with
+                                   A.Int -> pointer_t i32_t
+                                 | A.Float -> pointer_t float_t
+                                 | _ -> raise (IllegalPointerType))
 
   in
 
@@ -112,6 +120,15 @@ let translate (globals, functions) =
                    with Not_found -> StringMap.find n global_vars
     in
 
+    let build_1D_matrix_argument s builder =
+      L.build_in_bounds_gep (lookup s) [| L.const_int i32_t 0; L.const_int i32_t 0 |] s builder
+    in
+
+    let build_2D_matrix_argument s builder =
+      L.build_in_bounds_gep (lookup s) [| L.const_int i32_t 0; L.const_int i32_t 0; L.const_int i32_t 0 |] s builder
+    in
+
+
     let build_1D_matrix_access s i1 i2 builder isAssign =
       if isAssign
         then L.build_gep (lookup s) [| i1; i2 |] s builder
@@ -126,6 +143,13 @@ let translate (globals, functions) =
          L.build_load (L.build_gep (lookup s) [| i1; i2; i3 |] s builder) s builder
     in
 
+    let build_pointer_dereference s builder isAssign =
+      if isAssign
+        then L.build_load (lookup s) s builder
+      else
+        L.build_load (L.build_load (lookup s) s builder) s builder
+    in
+
     (* Construct code for an expression; return its value *)
     let rec expr builder = function
     A.IntLiteral i -> L.const_int i32_t i
@@ -135,8 +159,11 @@ let translate (globals, functions) =
       | A.StringLiteral s -> L.const_string context s
       | A.Noexpr -> L.const_int i32_t 0
       | A.Id s -> L.build_load (lookup s) s builder
+      | A.Matrix1DReference (s) -> build_1D_matrix_argument s builder
+      | A.Matrix2DReference (s) -> build_2D_matrix_argument s builder
       | A.Matrix1DAccess (s, e1) -> let i1 = expr builder e1 in build_1D_matrix_access s (L.const_int i32_t 0) i1 builder false
       | A.Matrix2DAccess (s, e1, e2) -> let i1 = expr builder e1 and i2 = expr builder e2 in build_2D_matrix_access s (L.const_int i32_t 0) i1 i2 builder false
+      | A.Dereference (s) -> build_pointer_dereference s builder false
       | A.Binop (e1, op, e2) ->
     let e1' = expr builder e1
     and e2' = expr builder e2 in
@@ -162,6 +189,7 @@ let translate (globals, functions) =
                                             A.Id s -> lookup s
                                           | A.Matrix1DAccess (s, e1) -> let i1 = expr builder e1 in build_1D_matrix_access s (L.const_int i32_t 0) i1 builder true
                                           | A.Matrix2DAccess (s, e1, e2) -> let i1 = expr builder e1 and i2 = expr builder e2 in build_2D_matrix_access s (L.const_int i32_t 0) i1 i2 builder true
+                                          | A.Dereference(s) -> build_pointer_dereference s builder true
                                           | _ -> raise (IllegalAssignment)
                                           )
                             and e2' = expr builder e2 in

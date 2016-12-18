@@ -1,0 +1,14 @@
+int pointer(int[] z){
+	int q;
+	q = #z;
+	
+	return(q);
+}
+
+int main() { 
+	int[4] x;
+	
+	x[0] = 9;
+	
+	print(pointer(&x));
+}

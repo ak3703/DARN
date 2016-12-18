@@ -27,6 +27,9 @@
 /* Functional Keywords */
 %token RETURN
 
+/* Reference and Dereference */
+%token OCTOTHORP AMPERSAND
+
 /* End Of File */
 %token EOF 
 
@@ -88,12 +91,20 @@ typ:
   | CHAR { Char }
   | matrix1D_typ { $1 }
   | matrix2D_typ { $1 }
+  | matrix1D_pointer_typ { $1 }
+  | matrix2D_pointer_typ { $1 }
 
 matrix1D_typ:
     typ LBRACK INTLITERAL RBRACK %prec NOLBRACK  { Matrix1DType($1, $3) }
 
 matrix2D_typ:
     typ LBRACK INTLITERAL RBRACK LBRACK INTLITERAL RBRACK  { Matrix2DType($1, $3, $6) }
+
+matrix1D_pointer_typ:
+  typ LBRACK RBRACK %prec NOLBRACK { Matrix1DPointer($1)}
+
+matrix2D_pointer_typ:
+  typ LBRACK RBRACK LBRACK RBRACK { Matrix2DPointer($1) }
 
 vdecl_list:
     /* nothing */    { [] }
@@ -122,20 +133,23 @@ expr_opt:
     | expr          { $1 }
 
 expr:
-    arith_ops           { $1 }
-    | bool_ops          { $1 }
-    | expr ASSIGN expr  { Assign($1, $3)  }
-    | LPAREN expr RPAREN { $2 }
-    | INTLITERAL        {IntLiteral($1)   }
-    | FLOATLITERAL      {FloatLiteral($1) }
-    | CHARLITERAL        { CharLiteral($1) }
-    | STRINGLITERAL     { StringLiteral($1)}
-    | TRUE              {BoolLiteral(true)}
-    | FALSE             {BoolLiteral(false)}
-    | ID LPAREN actuals_opt RPAREN { Call($1, $3) }
-    | ID LBRACK expr  RBRACK %prec NOLBRACK    { Matrix1DAccess($1, $3)}
-    | ID LBRACK expr  RBRACK LBRACK expr  RBRACK   { Matrix2DAccess($1, $3, $6)}
-    | ID 			{Id($1)} 
+    arith_ops                                       { $1 }
+    | bool_ops                                      { $1 }
+    | expr ASSIGN expr                              { Assign($1, $3)  }
+    | LPAREN expr RPAREN                            { $2 }
+    | INTLITERAL                                    { IntLiteral($1)   }
+    | FLOATLITERAL                                  { FloatLiteral($1) }
+    | CHARLITERAL                                   { CharLiteral($1) }
+    | STRINGLITERAL                                 { StringLiteral($1) }
+    | TRUE                                          { BoolLiteral(true) }
+    | FALSE                                         { BoolLiteral(false) }
+    | ID LPAREN actuals_opt RPAREN                  { Call($1, $3)}
+    | ID LBRACK expr  RBRACK %prec NOLBRACK         { Matrix1DAccess($1, $3)}
+    | ID LBRACK expr  RBRACK LBRACK expr  RBRACK    { Matrix2DAccess($1, $3, $6)}
+    | ID 			                                      { Id($1)} 
+    | AMPERSAND ID                                  { Matrix1DReference($2)}
+    | AMPERSAND AMPERSAND ID                        { Matrix2DReference($3)}
+    | OCTOTHORP ID                                   { Dereference($2)}
 
 arith_ops:
     expr PLUS expr    {Binop($1, Add, $3)  }

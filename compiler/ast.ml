@@ -12,6 +12,8 @@ type typ =
     | String
     | Matrix1DType of typ * int
     | Matrix2DType of typ * int * int
+    | Matrix1DPointer of typ
+    | Matrix2DPointer of typ
 
 type bind = typ * string
 
@@ -29,6 +31,9 @@ type expr =
     | Matrix2DAccess of string * expr * expr
     | Call of string * expr list
     | Noexpr
+    | Matrix1DReference of string
+    | Matrix2DReference of string
+    | Dereference of string
 
 type stmt = 
 		Block of stmt list
@@ -83,6 +88,9 @@ let rec string_of_expr = function
     | Call(f, el) ->
       f ^ "(" ^ String.concat ", " (List.map string_of_expr el) ^ ")"
     | Noexpr -> ""
+    | Matrix1DReference(s) -> "&" ^ s
+    | Matrix2DReference(s) -> "&&" ^ s
+    | Dereference(s) -> "#" ^ s
 
 let rec string_of_stmt = function
     Block(stmts) ->
@@ -106,6 +114,8 @@ let rec string_of_typ = function
   | String -> "string"
   | Matrix1DType(t, i1) -> string_of_typ t ^ "[" ^ string_of_int i1 ^ "]"
   | Matrix2DType(t, i1, i2) -> string_of_typ t ^ "[" ^ string_of_int i1 ^ "]" ^ "[" ^ string_of_int i2 ^ "]"
+  | Matrix1DPointer(t) -> string_of_typ t ^ "[]"
+  | Matrix2DPointer(t) -> string_of_typ t ^ "[][]"
 
 let string_of_vdecl (t, id) = string_of_typ t ^ " " ^ id ^ ";\n"
 

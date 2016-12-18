@@ -46,7 +46,10 @@ rule token = parse
 
 (* Logical *)
 |   "&&"    { AND } |   "||"    { OR }  |   "!"     { NOT }
-    
+
+(* Reference Dereference *)
+| '&' { AMPERSAND } | '#' { OCTOTHORP }
+
 (* Conditional and Loops *)    
 |   "if"    { IF }  |   "else"  { ELSE }    |   "elif"  { ELIF }
 |   "for"   { FOR } |   "while" { WHILE }
