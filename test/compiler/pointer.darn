@@ -1,9 +1,16 @@
 int main() { 
-	/* int[4] x;
+	/* Create a 1D matrix */
+	int[4] x;
+	/* Create a 1D matrix pointer */
 	int[] y;
-	int[4] q;
+	int q;
+
 	x[0] = 9;
+	
+	/* Point pointer to matrix reference */
 	y = &x;
+
+	/* Dereference the pointer to get the first value in matrix x */
 	q = #y;
-	print(q[0]); */
+	print(q);
 }
