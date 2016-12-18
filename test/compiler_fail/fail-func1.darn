@@ -1,7 +1,0 @@
-int bar() {}
-
-void bar() {} /* duplicate function bar */
-
-int main() {
-	return 0;
-}
