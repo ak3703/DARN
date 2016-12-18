@@ -1,0 +1,7 @@
+int foo() {}
+
+int print() {} /* cannot use keyword print as function definition */
+
+int main() {
+	return 0;
+}
