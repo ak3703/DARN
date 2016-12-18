@@ -6,6 +6,7 @@ test:
 	./scanner_test.sh
 	./parser_test.sh
 	./compiler_test.sh
+	./compiler_fail_test.sh
 .PHONY:
 clean: 
 	cd scanner; make clean

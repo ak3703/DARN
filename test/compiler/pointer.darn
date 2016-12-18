@@ -1,9 +1,9 @@
 int main() { 
-	int[4] x;
+	/* int[4] x;
 	int[] y;
 	int[4] q;
 	x[0] = 9;
 	y = &x;
 	q = #y;
-	print(q[0]);
+	print(q[0]); */
 }
