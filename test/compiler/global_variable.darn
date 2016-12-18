@@ -1,0 +1,13 @@
+int i;
+
+int add(int x){
+	int a;
+	a = x + i;
+	i = 8;
+	return a;
+}
+int main() {
+	i = 10;
+	print(add(5));
+	print(i);
+}
