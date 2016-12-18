@@ -18,6 +18,9 @@
 /* Logical Operators */
 %token AND OR NOT
 
+/* Matrices */
+%token LEN HEIGHT WIDTH
+
 /* Assignment */
 %token ASSIGN 
 
@@ -146,10 +149,13 @@ expr:
     | ID LPAREN actuals_opt RPAREN                  { Call($1, $3)}
     | ID LBRACK expr  RBRACK %prec NOLBRACK         { Matrix1DAccess($1, $3)}
     | ID LBRACK expr  RBRACK LBRACK expr  RBRACK    { Matrix2DAccess($1, $3, $6)}
+    | LEN LPAREN ID RPAREN                          { Len($3) }
+    | HEIGHT LPAREN ID RPAREN                       { Height($3) }
+    | WIDTH LPAREN ID RPAREN                        { Width($3) }
     | ID 			                                      { Id($1)} 
     | AMPERSAND ID                                  { Matrix1DReference($2)}
     | AMPERSAND AMPERSAND ID                        { Matrix2DReference($3)}
-    | OCTOTHORP ID                                   { Dereference($2)}
+    | OCTOTHORP ID                                  { Dereference($2)}
 
 arith_ops:
     expr PLUS expr    {Binop($1, Add, $3)  }

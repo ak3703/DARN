@@ -120,6 +120,16 @@ let translate (globals, functions) =
                    with Not_found -> StringMap.find n global_vars
     in
 
+    let check_function =
+        List.fold_left (fun m (t, n) -> StringMap.add n t m)
+        StringMap.empty (globals @ fdecl.A.formals @ fdecl.A.locals)
+    in
+
+    let type_of_identifier s =
+      let symbols = check_function in
+      StringMap.find s symbols
+    in
+
     let build_1D_matrix_argument s builder =
       L.build_in_bounds_gep (lookup s) [| L.const_int i32_t 0; L.const_int i32_t 0 |] s builder
     in
@@ -161,6 +171,12 @@ let translate (globals, functions) =
       | A.Id s -> L.build_load (lookup s) s builder
       | A.Matrix1DReference (s) -> build_1D_matrix_argument s builder
       | A.Matrix2DReference (s) -> build_2D_matrix_argument s builder
+      | A.Len s -> (match (type_of_identifier s) with A.Matrix1DType(_, l) -> L.const_int i32_t l 
+                                                      | _ -> L.const_int i32_t 0 )
+      | A.Height s -> (match (type_of_identifier s) with A.Matrix2DType(_, l, _) -> L.const_int i32_t l
+                                                      | _ -> L.const_int i32_t 0 )
+      | A.Width s -> (match (type_of_identifier s) with A.Matrix2DType(_, _, l) -> L.const_int i32_t l
+                                                      | _ -> L.const_int i32_t 0 )
       | A.Matrix1DAccess (s, e1) -> let i1 = expr builder e1 in build_1D_matrix_access s (L.const_int i32_t 0) i1 builder false
       | A.Matrix2DAccess (s, e1, e2) -> let i1 = expr builder e1 and i2 = expr builder e2 in build_2D_matrix_access s (L.const_int i32_t 0) i1 i2 builder false
       | A.Dereference (s) -> build_pointer_dereference s builder false

@@ -149,6 +149,15 @@ let check_function func =
                                           Int -> Int
                                         | _ -> raise (Failure ("attempting to access with a non-integer type"))) in
                                matrix_acces_type (type_of_identifier s)
+      | Len(s) -> (match (type_of_identifier s) with
+                    Matrix1DType(_, _) -> Int
+                  | _ -> raise(Failure ("cannot get the length of non-1d-matrix")))
+      | Height(s) -> (match (type_of_identifier s) with
+                    Matrix2DType(_, _, _) -> Int
+                  | _ -> raise(Failure ("cannot get the height of non-2d-matrix")))
+      | Width(s) -> (match (type_of_identifier s) with
+                    Matrix2DType(_, _, _) -> Int
+                  | _ -> raise(Failure ("cannot get the width of non-2d-matrix")))
       | Dereference(s) -> pointer_type (type_of_identifier s)
       | Matrix1DReference(s) -> check_matrix1D_pointer_type( type_of_identifier s )
       | Matrix2DReference(s) -> check_matrix2D_pointer_type( type_of_identifier s )

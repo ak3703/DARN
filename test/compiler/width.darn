@@ -1,0 +1,4 @@
+int main() {
+	int[5][8] a;
+	print(width(a));
+}
