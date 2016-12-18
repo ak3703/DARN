@@ -1,0 +1,12 @@
+int a;
+bool b;
+
+void foo(int c, bool d){
+  a = 2;
+  a * 3;
+  d + a; /* Error: bool + int */
+}
+
+int main() {
+  return 0;
+}

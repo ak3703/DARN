@@ -1,0 +1,6 @@
+int main(){
+  int i;
+  bool b;
+
+  b = 22; /* Fail: assigning an integer to a bool */
+}
