@@ -1,0 +1,10 @@
+int main() { 
+	int[5] y;
+	int[] p;
+
+	y[0] = 1;
+	y[1] = 2;
+	p = %y;
+	p = ++p;
+	print(#p);
+}

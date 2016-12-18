@@ -1,0 +1,30 @@
+/* 1D Matrix addition:
+	Takes in two matrix pointers and the length of the matrices
+	Adds the second matrix into the first in memory */
+
+void add1D(int[] x, int[] y, int length) {
+	
+	int i;
+
+	for (i=0; i<length; i=i+1) {
+		#x = #x + #y;
+		x = ++x;
+		y = ++y;
+	}
+}
+
+/* 2D Matrix addition:
+	Takes in two matrix pointers and the height and width of the matrices
+	Adds the second matrix into the first in memory */
+
+void add2D(int[][] x, int[][] y, int height, int width) {
+	
+	int i;
+
+	for (i=0; i<(height*width); i=i+1) {
+		#x = #x + #y;
+		x = ++x;
+		y = ++y;
+	}
+}
+

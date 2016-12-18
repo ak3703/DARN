@@ -48,7 +48,7 @@ rule token = parse
 |   "&&"    { AND } |   "||"    { OR }  |   "!"     { NOT }
 
 (* Reference Dereference *)
-| '&' { AMPERSAND } | '#' { OCTOTHORP }
+| '%' { PERCENT } | '#' { OCTOTHORP }
 
 (* Conditional and Loops *)    
 |   "if"    { IF }  |   "else"  { ELSE }    |   "elif"  { ELIF }

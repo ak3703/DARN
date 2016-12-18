@@ -1,0 +1,30 @@
+void add2D(int[][] x, int[][] y, int height, int width) {
+	
+	int i;
+
+	for (i=0; i<(height*width); i=i+1) {
+		#x = #x + #y;
+		x = ++x;
+		y = ++y;
+	}
+}
+
+int main() {
+	
+	int[4][4] x;
+	int[4][4] y;
+
+	int i;
+	int j;
+	for (i=0; i<4; i=i+1) {
+		for (j=0; j<4; j=j+1) {
+			x[i][j] = 1;
+			y[i][j] = 1;
+		}
+	}
+
+	add2D(%%x, %%y, 4, 4);
+
+	print(x[0]);
+
+}
