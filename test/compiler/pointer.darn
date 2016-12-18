@@ -8,7 +8,7 @@ int main() {
 	x[0] = 9;
 	
 	/* Point pointer to matrix reference */
-	y = &x;
+	y = %x;
 
 	/* Dereference the pointer to get the first value in matrix x */
 	q = #y;

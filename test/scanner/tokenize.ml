@@ -54,7 +54,7 @@ let tokenize = function
 | STRINGLITERAL(string) -> "STRINGLITERAL"
 | EOF -> "EOF"
 | OCTOTHORP -> "OCTOTHORP"
-| AMPERSAND -> "AMPERSAND"
+| PERCENT -> "PERCENT"
 
 let _ =
     let lexbuf = Lexing.from_channel stdin in 

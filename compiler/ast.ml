@@ -27,6 +27,7 @@ type expr =
     | Binop of expr * op * expr
     | Unop of uop * expr
     | Assign of expr * expr
+    | PointerIncrement of string
     | Matrix1DAccess of string * expr 
     | Matrix2DAccess of string * expr * expr
     | Call of string * expr list
@@ -82,14 +83,15 @@ let rec string_of_expr = function
     | Unop(uop, r1) -> (string_of_uop uop) ^ string_of_expr r1
     | Binop(r1, bop, r2) -> string_of_expr r1 ^ " " ^ (string_of_bop
     bop) ^ " " ^ (string_of_expr r2)
+    | PointerIncrement(s) -> "++" ^ s 
     | Assign(r1, r2) -> (string_of_expr r1) ^ " =  " ^ (string_of_expr r2) 
     | Matrix1DAccess(s, r1) -> s ^ "[" ^ (string_of_expr r1) ^ "]"
     | Matrix2DAccess(s, r1, r2) -> s ^ "[" ^ (string_of_expr r1) ^ "]" ^ "[" ^ (string_of_expr r2) ^ "]"
     | Call(f, el) ->
       f ^ "(" ^ String.concat ", " (List.map string_of_expr el) ^ ")"
     | Noexpr -> ""
-    | Matrix1DReference(s) -> "&" ^ s
-    | Matrix2DReference(s) -> "&&" ^ s
+    | Matrix1DReference(s) -> "%" ^ s
+    | Matrix2DReference(s) -> "%%" ^ s
     | Dereference(s) -> "#" ^ s
 
 let rec string_of_stmt = function

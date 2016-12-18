@@ -108,10 +108,16 @@ let check_function func =
       with Not_found -> raise (Failure ("undeclared identifier " ^ s))
     in
 
-    let matrix_acces_type = function
+    let matrix_access_type = function
       Matrix1DType(t, _) -> t
       | Matrix2DType(t, _, _) -> t
       | _ -> raise (Failure ("illegal matrix access") )
+    in
+
+    let check_pointer_type = function
+        Matrix1DPointer(t) -> Matrix1DPointer(t)
+      | Matrix2DPointer(t) -> Matrix2DPointer(t)
+      | _ -> raise ( Failure ("cannot increment a non-pointer type") )
     in
 
     let check_matrix1D_pointer_type = function
@@ -138,17 +144,18 @@ let check_function func =
       | CharLiteral _ -> Char
       | StringLiteral _ -> String
       | Id s -> type_of_identifier s
+      | PointerIncrement(s) -> check_pointer_type (type_of_identifier s)
       | Matrix1DAccess(s, e1) -> let _ = (match (expr e1) with
                                           Int -> Int
                                         | _ -> raise (Failure ("attempting to access with a non-integer type"))) in
-                               matrix_acces_type (type_of_identifier s)
+                               matrix_access_type (type_of_identifier s)
       | Matrix2DAccess(s, e1, e2) -> let _ = (match (expr e1) with
                                           Int -> Int
                                         | _ -> raise (Failure ("attempting to access with a non-integer type")))
                                and _ = (match (expr e2) with
                                           Int -> Int
                                         | _ -> raise (Failure ("attempting to access with a non-integer type"))) in
-                               matrix_acces_type (type_of_identifier s)
+                               matrix_access_type (type_of_identifier s)
       | Dereference(s) -> pointer_type (type_of_identifier s)
       | Matrix1DReference(s) -> check_matrix1D_pointer_type( type_of_identifier s )
       | Matrix2DReference(s) -> check_matrix2D_pointer_type( type_of_identifier s )

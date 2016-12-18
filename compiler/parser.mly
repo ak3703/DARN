@@ -28,7 +28,7 @@
 %token RETURN
 
 /* Reference and Dereference */
-%token OCTOTHORP AMPERSAND
+%token OCTOTHORP PERCENT
 
 /* End Of File */
 %token EOF 
@@ -147,9 +147,10 @@ expr:
     | ID LBRACK expr  RBRACK %prec NOLBRACK         { Matrix1DAccess($1, $3)}
     | ID LBRACK expr  RBRACK LBRACK expr  RBRACK    { Matrix2DAccess($1, $3, $6)}
     | ID 			                                      { Id($1)} 
-    | AMPERSAND ID                                  { Matrix1DReference($2)}
-    | AMPERSAND AMPERSAND ID                        { Matrix2DReference($3)}
-    | OCTOTHORP ID                                   { Dereference($2)}
+    | PERCENT ID                                  { Matrix1DReference($2)}
+    | PERCENT PERCENT ID                        { Matrix2DReference($3)}
+    | OCTOTHORP ID                                  { Dereference($2)}
+    | PLUS PLUS ID                                  { PointerIncrement($3) }
 
 arith_ops:
     expr PLUS expr    {Binop($1, Add, $3)  }
