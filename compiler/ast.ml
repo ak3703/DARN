@@ -30,6 +30,9 @@ type expr =
     | PointerIncrement of string
     | Matrix1DAccess of string * expr 
     | Matrix2DAccess of string * expr * expr
+    | Len of string
+    | Height of string
+    | Width of string
     | Call of string * expr list
     | Noexpr
     | Matrix1DReference of string
@@ -87,6 +90,9 @@ let rec string_of_expr = function
     | Assign(r1, r2) -> (string_of_expr r1) ^ " =  " ^ (string_of_expr r2) 
     | Matrix1DAccess(s, r1) -> s ^ "[" ^ (string_of_expr r1) ^ "]"
     | Matrix2DAccess(s, r1, r2) -> s ^ "[" ^ (string_of_expr r1) ^ "]" ^ "[" ^ (string_of_expr r2) ^ "]"
+    | Len(s) -> "len(" ^ s ^ ")"
+    | Height(s) -> "height(" ^ s ^ ")"
+    | Width(s) -> "width(" ^ s ^ ")"
     | Call(f, el) ->
       f ^ "(" ^ String.concat ", " (List.map string_of_expr el) ^ ")"
     | Noexpr -> ""

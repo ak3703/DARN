@@ -46,6 +46,10 @@ let tokenize = function
 | FLOAT -> "FLOAT"
 | BOOL -> "BOOL"
 | VOID -> "VOID"
+(* Matrices *)
+| LEN -> "LEN"
+| HEIGHT -> "HEIGHT"
+| WIDTH -> "WIDTH"
 (* Literal *)
 | INTLITERAL(int) -> "INTLITERAL"
 | FLOATLITERAL(float) -> "FLOATLITERAL"

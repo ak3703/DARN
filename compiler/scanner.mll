@@ -62,6 +62,9 @@ rule token = parse
 |   "int"   { INT }     |   "float" { FLOAT }   |   "bool"  { BOOL }
 | 	"void"   { VOID }
 
+(* Matrices *)
+|  "len"	{ LEN }		|  	"height" { HEIGHT } |	"width" { WIDTH }
+
 (* Literal *)
 |   ['0'-'9']+ as lxm   { INTLITERAL(int_of_string lxm) }
 |   float as lxm        { FLOATLITERAL(float_of_string lxm) }
