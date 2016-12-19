@@ -1,0 +1,18 @@
+int main() {
+		
+	int[4][2] a;
+	int[2][4] output;
+	int i;
+	int j;
+
+	for (i=0;i<height(a);i=i+1) {
+		for (j=0;j<width(a);j=j+1) {
+			a[i][j] = i+j;
+		}
+
+	}
+
+	transpose_2D_int(%%a, %%output, height(a), width(a));
+	print(output[1][3]);
+
+}
