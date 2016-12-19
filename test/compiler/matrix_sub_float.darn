@@ -1,0 +1,16 @@
+int main() {
+	
+	float[4] x;
+	float[4] y;
+
+	int i;
+	for (i=0; i<len(x); i=i+1) {
+		x[i] = 3.3;
+		y[i] = 1.1;
+	}
+
+	sub_1D_float(%x, %y, len(x));
+
+	printf(x[0]);
+
+}

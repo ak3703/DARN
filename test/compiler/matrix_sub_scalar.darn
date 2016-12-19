@@ -1,0 +1,14 @@
+int main() {
+	
+	int[4] x;
+
+	int i;
+	for (i=0; i<4; i=i+1) {
+		x[i] = 3;
+	}
+
+	sub_1D_scalar(%x, 1, len(x));
+
+	print(x[0]);
+
+}

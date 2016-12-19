@@ -1,15 +1,13 @@
 int main() {
 	
 	int[4] x;
-	int[4] y;
 
 	int i;
 	for (i=0; i<len(x); i=i+1) {
 		x[i] = 3;
-		y[i] = 1;
 	}
 
-	sub_1D_int(%x, %y, len(x));
+	mult_1D_scalar(%x, 3, len(x));
 
 	print(x[0]);
 

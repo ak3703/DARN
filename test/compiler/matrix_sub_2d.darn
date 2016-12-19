@@ -1,0 +1,19 @@
+int main() {
+	
+	int[4][5] x;
+	int[4][5] y;
+
+	int i;
+	int j;
+	for (i=0; i<height(x); i=i+1) {
+		for (j=0; j<width(x); j=j+1) {
+			x[i][j] = 4;
+			y[i][j] = 1;
+		}
+	}
+
+	sub_2D_int(%%x, %%y, height(x), width(x));
+
+	print(x[0]);
+
+}

@@ -1,0 +1,18 @@
+int main() {
+	
+	int[4][3] x;
+
+	int i;
+	int j;
+
+	for (i=0; i<height(x); i=i+1) {
+		for (j=0; j<width(x);j=j+1) {
+			x[i][j] = 3;
+		}
+	}
+
+	sub_2D_scalar(%%x, 1, height(x), width(x));
+
+	print(x[1]);
+
+}

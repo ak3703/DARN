@@ -1,0 +1,19 @@
+int main() {
+	
+	float[4][5] x;
+	float[4][5] y;
+
+	int i;
+	int j;
+	for (i=0; i<height(x); i=i+1) {
+		for (j=0; j<width(x); j=j+1) {
+			x[i][j] = 3.2;
+			y[i][j] = 4.3;
+		}
+	}
+
+	sub_2D_float(%%x, %%y, height(x), width(x));
+
+	printf(x[0]);
+
+}
