@@ -1,0 +1,24 @@
+int main() {
+	
+	float[4] x;
+	int x_len;
+	int[4] y;
+	int y_len;
+
+
+	x_len = len(x);
+	y_len = len(y);
+
+	x[0] = 0.0;
+	x[1] = 1.0;
+	x[2] = 2.0;
+	x[3] = 3.0;
+
+	y[0] = 0;
+	y[1] = 1;
+	y[2] = 2;
+	y[3] = 3;
+
+	print_1D_int(%y, y_len);
+	print_1D_float(%x, x_len);
+}
