@@ -82,6 +82,33 @@ void mult_2D_scalar(int[][] x, int scalar, int h, int w) {
 	}
 }
 
+/* 1D Matrix Scalar Division:
+	Takes in one matrix pointer, a scalar, and the length of the matrix
+	Divides the values from the matrix with the scalar in memory */
+
+void div_1D_scalar(int[] x, int scalar, int l) {
+	
+	int i;
+
+	for (i=0; i<l; i=i+1) {
+		#x = #x / scalar;
+		x = ++x;
+	}
+}
+
+/* 2D Matrix Scalar Division:
+	Takes in one matrix pointer, a scalar, and the length of the matrix
+	Divides the values from the matrix with the scalar in memory */
+
+void div_2D_scalar(int[][] x, int scalar, int h, int w) {
+	
+	int i;
+
+	for (i=0; i<(h*w); i=i+1) {
+		#x = #x / scalar;
+		x = ++x;
+	}
+}
 
 /* 1D Int Matrix addition:
 	Takes in two matrix pointers and the length of the matrices
@@ -103,6 +130,36 @@ void add_1D_int(int[] x, int[] y, int l) {
 	Adds the second matrix into the first in memory */
 
 void add_2D_int(int[][] x, int[][] y, int h, int w) {
+	
+	int i;
+
+	for (i=0; i<(h*w); i=i+1) {
+		#x = #x + #y;
+		x = ++x;
+		y = ++y;
+	}
+}
+
+/* 1D Float Matrix addition:
+	Takes in two matrix pointers and the length of the matrices
+	Adds the second matrix into the first in memory */
+
+void add_1D_float(float[] x, float[] y, int l) {
+	
+	int i;
+
+	for (i=0; i<l; i=i+1) {
+		#x = #x + #y;
+		x = ++x;
+		y = ++y;
+	}
+}
+
+/* 2D Float Matrix addition:
+	Takes in two matrix pointers and the height and width of the matrices
+	Adds the second matrix into the first in memory */
+
+void add_2D_float(float[][] x, float[][] y, int h, int w) {
 	
 	int i;
 
@@ -143,32 +200,81 @@ void sub_2D_int(int[][] x, int[][] y, int h, int w) {
 	}
 }
 
+/* 1D Float Matrix subtraction:
+	Takes in two matrix pointers and the length of the matrices
+	Subtracts the second matrix from the first in memory */
+
+void sub_1D_float(float[] x, float[] y, int l) {
+	
+	int i;
+
+	for (i=0; i<l; i=i+1) {
+		#x = #x - #y;
+		x = ++x;
+		y = ++y;
+	}
+}
+
+/* 2D Float Matrix subtraction:
+	Takes in two matrix pointers and the height and width of the matrices
+	Subtracts the second matrix from the first in memory */
+
+void sub_2D_float(float[][] x, float[][] y, int h, int w) {
+	
+	int i;
+
+	for (i=0; i<(h*w); i=i+1) {
+		#x = #x - #y;
+		x = ++x;
+		y = ++y;
+	}
+}
+
+/*int[][] mult_2D_int(int[][] x, int[][] y, int h1, int w1, int h2, int w2) {
+
+	int[4][4] a;
+	int i;
+	int j;
+
+	for (i=0;i<h1;i=i+1) {
+		for (j=0;j<h2;j=j+1) {
+			a[i][j] = 3;
+		}
+	}
+	return(%%a);
+
+}
+*/
+
+
+/*
 Scalar ops:
 + add 1D matrix int 
 + add 2D matrix int 
 + sub 1D matrix int 
 + sub 2D matrix int 
-mult 1D matrix int 
-mult 2D matrix int 
-div 1D matrix int 
-div 2D matrix int 
++ mult 1D matrix int 
++ mult 2D matrix int 
++ div 1D matrix int 
++ div 2D matrix int 
 
 Matrix ops:
+Basic:
++ add 1D matrix matrix int
++ add 2D matrix matrix int
++ add 1D matrix matrix float
++ add 2D matrix matrix float
++ sub 1D matrix matrix int
++ sub 2D matrix matrix int
++ sub 1D matrix matrix float
++ sub 2D matrix matrix float
+
+Mult:
+2D int matrix mult
+2D float matrix mult
+
 print 1D matrix int
 print 2D matrix int 
-add 1D matrix matrix float
-add 2D matrix matrix float
-sub 1D matrix matrix int
-sub 2D matrix matrix int
-sub 1D matrix matrix float
-sub 2D matrix matrix float
-mult 1D matrix matrix int
-mult 2D matrix matrix int
-mult 1D matrix matrix float
-mult 2D matrix matrix float
-div 1D matrix matrix int
-div 2D matrix matrix int
-div 1D matrix matrix float
-div 2D matrix matrix float
 
 determinant 2D matrix 
+*/

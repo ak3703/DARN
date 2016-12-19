@@ -5,11 +5,11 @@ int main() {
 
 	int i;
 	for (i=0; i<len(x); i=i+1) {
-		x[i] = 3;
-		y[i] = 1;
+		x[i] = 4;
+		y[i] = 3;
 	}
 
-	sub_1D_int(%x, %y, len(x));
+	mult_1D_int(%x, %y, len(x));
 
 	print(x[0]);
 
