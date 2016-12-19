@@ -167,9 +167,15 @@ let translate (globals, functions) =
         L.build_in_bounds_gep (L.build_load (L.build_in_bounds_gep (lookup s) [| L.const_int i32_t 0 |] s builder) s builder) [| L.const_int i32_t 1 |] s builder
     in
 
-    let expression_reducer e = 
+    let rec matrix_expression e =
        match e with
        | A.IntLiteral i -> i
+       | A.Binop (e1, op, e2) -> (match op with
+              A.Add     -> (matrix_expression e1) + (matrix_expression e2)
+            | A.Sub     -> (matrix_expression e1) - (matrix_expression e2)
+            | A.Mul    -> (matrix_expression e1) * (matrix_expression e2)
+            | A.Div     -> (matrix_expression e1) / (matrix_expression e2)
+            | _ -> 0)
        | _ -> 0
     in
 
@@ -192,13 +198,13 @@ let translate (globals, functions) =
                                                       | _ -> L.const_int i32_t 0 )
       | A.Matrix1DAccess (s, e1) -> let i1 = expr builder e1 in (match (type_of_identifier s) with 
                                                       A.Matrix1DType(_, l) -> (
-                                                        if (expression_reducer e1) >= l then raise(MatrixOutOfBounds) 
+                                                        if (matrix_expression e1) >= l then raise(MatrixOutOfBounds)
                                                         else build_1D_matrix_access s (L.const_int i32_t 0) i1 builder false)
                                                       | _ -> build_1D_matrix_access s (L.const_int i32_t 0) i1 builder false )
       | A.Matrix2DAccess (s, e1, e2) -> let i1 = expr builder e1 and i2 = expr builder e2 in (match (type_of_identifier s) with 
                                                       A.Matrix2DType(_, l1, l2) -> (
-                                                        if (expression_reducer e1) >= l1 then raise(MatrixOutOfBounds) 
-                                                        else if (expression_reducer e2) >= l2 then raise(MatrixOutOfBounds)
+                                                        if (matrix_expression e1) >= l1 then raise(MatrixOutOfBounds)
+                                                        else if (matrix_expression e2) >= l2 then raise(MatrixOutOfBounds)
                                                         else build_2D_matrix_access s (L.const_int i32_t 0) i1 i2 builder false)
                                                       | _ -> build_2D_matrix_access s (L.const_int i32_t 0) i1 i2 builder false )
       | A.PointerIncrement (s) ->  build_pointer_increment s builder false
@@ -282,13 +288,13 @@ let translate (globals, functions) =
                                             A.Id s -> lookup s
                                           | A.Matrix1DAccess (s, e1) -> let i1 = expr builder e1 in (match (type_of_identifier s) with 
                                                       A.Matrix1DType(_, l) -> (
-                                                        if (expression_reducer e1) >= l then raise(MatrixOutOfBounds) 
+                                                        if (matrix_expression e1) >= l then raise(MatrixOutOfBounds)
                                                         else build_1D_matrix_access s (L.const_int i32_t 0) i1 builder true)
                                                       | _ -> build_1D_matrix_access s (L.const_int i32_t 0) i1 builder true )
                                           | A.Matrix2DAccess (s, e1, e2) -> let i1 = expr builder e1 and i2 = expr builder e2 in (match (type_of_identifier s) with 
                                                       A.Matrix2DType(_, l1, l2) -> (
-                                                        if (expression_reducer e1) >= l1 then raise(MatrixOutOfBounds) 
-                                                        else if (expression_reducer e2) >= l2 then raise(MatrixOutOfBounds)
+                                                        if (matrix_expression e1) >= l1 then raise(MatrixOutOfBounds)
+                                                        else if (matrix_expression e2) >= l2 then raise(MatrixOutOfBounds)
                                                         else build_2D_matrix_access s (L.const_int i32_t 0) i1 i2 builder true)
                                                       | _ -> build_2D_matrix_access s (L.const_int i32_t 0) i1 i2 builder true )
                                           | A.PointerIncrement(s) -> build_pointer_increment s builder true
