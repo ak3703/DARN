@@ -8,7 +8,7 @@ TARFILES = Makefile scanner.mll parser.mly ast.ml darn.ml semant.
 .PHONY : darn.native
 
 darn.native : 
-	ocamlbuild -use-ocamlfind -pkgs llvm,llvm.analysis -cflags -w,+a-4 \
+	ocamlbuild -use-ocamlfind -pkgs llvm,llvm.analysis,str -cflags -w,+a-4 \
 		darn.native
 
 # "make clean" removes all generated files

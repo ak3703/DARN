@@ -171,8 +171,10 @@ let check_function func =
       | Binop(e1, op, e2) as e -> let t1 = expr e1 and t2 = expr e2 in
 	(match op with
           Add | Sub | Mul | Div when t1 = Int && t2 = Int -> Int
+       |   Add | Sub | Mul | Div when t1 = Float && t2 = Float -> Float
 		  | Eq | Neq when t1 = t2 -> Bool
 		  | Less | Leq | Greater | Geq when t1 = Int && t2 = Int -> Bool
+      | Less | Leq | Greater | Geq when t1 = Float && t2 = Float -> Bool
 		  | And | Or when t1 = Bool && t2 = Bool -> Bool
         		| _ -> raise (Failure ("Illegal binary operator " ^
              		string_of_typ t1 ^ " " ^ string_of_bop op ^ " " ^
