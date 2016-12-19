@@ -1,0 +1,27 @@
+void add_2D_scalar(int[][] x, int scalar, int h, int w) {
+	
+	int i;
+
+	for (i=0; i<(h*w); i=i+1) {
+		#x = #x + scalar;
+		x = ++x;
+	}
+}
+
+int main() {
+	
+	int[4][4] x;
+
+	int i;
+	int j;
+	for (i=0; i<4; i=i+1) {
+		for (j=0; j<4;j=j+1) {
+			x[i][j] = 3;
+		}
+	}
+
+	add_2D_scalar(%%x, 3, 4, 4);
+
+	print(x[3][3]);
+
+}

@@ -1,9 +1,9 @@
-void add1D(int[] x, int[] y, int l) {
+void sub_1D_int(int[] x, int[] y, int l) {
 	
 	int i;
 
 	for (i=0; i<l; i=i+1) {
-		#x = #x + #y;
+		#x = #x - #y;
 		x = ++x;
 		y = ++y;
 	}
@@ -16,11 +16,11 @@ int main() {
 
 	int i;
 	for (i=0; i<4; i=i+1) {
-		x[i] = 1;
+		x[i] = 3;
 		y[i] = 1;
 	}
 
-	add1D(%x, %y, 4);
+	sub_1D_int(%x, %y, 4);
 
 	print(x[0]);
 

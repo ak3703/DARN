@@ -1,30 +1,174 @@
-/* 1D Matrix addition:
+/* 1D Matrix Scalar Addition:
+	Takes in one matrix pointer, a scalar, and the length of the matrix
+	Adds to the matrix in memory */
+
+void add_1D_scalar(int[] x, int scalar, int l) {
+	
+	int i;
+
+	for (i=0; i<l; i=i+1) {
+		#x = #x + scalar;
+		x = ++x;
+	}
+}
+
+/* 2D Matrix Scalar Addition:
+	Takes in one matrix pointer, a scalar, and the height and width of the matrix
+	Adds to the matrix in memory */
+
+void add_2D_scalar(int[][] x, int scalar, int h, int w) {
+	
+	int i;
+
+	for (i=0; i<(h*w); i=i+1) {
+		#x = #x + scalar;
+		x = ++x;
+	}
+}
+
+/* 1D Matrix Scalar Subtraction:
+	Takes in one matrix pointer, a scalar, and the length of the matrix
+	Subtracts the values from the matrix in memory */
+
+void sub_1D_scalar(int[] x, int scalar, int l) {
+	
+	int i;
+
+	for (i=0; i<l; i=i+1) {
+		#x = #x - scalar;
+		x = ++x;
+	}
+}
+
+/* 2D Matrix Scalar Subtraction:
+	Takes in one matrix pointer, a scalar, and the height and width of the matrix
+	Subtracts the values from the matrix in memory */
+
+void sub_2D_scalar(int[][] x, int scalar, int h, int w) {
+	
+	int i;
+
+	for (i=0; i<(h*w); i=i+1) {
+		#x = #x - scalar;
+		x = ++x;
+	}
+}
+
+/* 1D Matrix Scalar Multiplication:
+	Takes in one matrix pointer, a scalar, and the length of the matrix
+	Multiplies the values from the matrix with the scalar in memory */
+
+void mult_1D_scalar(int[] x, int scalar, int l) {
+	
+	int i;
+
+	for (i=0; i<l; i=i+1) {
+		#x = #x * scalar;
+		x = ++x;
+	}
+}
+
+/* 2D Matrix Scalar Multiplication:
+	Takes in one matrix pointer, a scalar, and the length of the matrix
+	Multiplies the values from the matrix with the scalar in memory */
+
+void mult_2D_scalar(int[][] x, int scalar, int h, int w) {
+	
+	int i;
+
+	for (i=0; i<(h*w); i=i+1) {
+		#x = #x * scalar;
+		x = ++x;
+	}
+}
+
+
+/* 1D Int Matrix addition:
 	Takes in two matrix pointers and the length of the matrices
 	Adds the second matrix into the first in memory */
 
-void add1D(int[] x, int[] y, int length) {
+void add_1D_int(int[] x, int[] y, int l) {
 	
 	int i;
 
-	for (i=0; i<length; i=i+1) {
+	for (i=0; i<l; i=i+1) {
 		#x = #x + #y;
 		x = ++x;
 		y = ++y;
 	}
 }
 
-/* 2D Matrix addition:
+/* 2D Int Matrix addition:
 	Takes in two matrix pointers and the height and width of the matrices
 	Adds the second matrix into the first in memory */
 
-void add2D(int[][] x, int[][] y, int height, int width) {
+void add_2D_int(int[][] x, int[][] y, int h, int w) {
 	
 	int i;
 
-	for (i=0; i<(height*width); i=i+1) {
+	for (i=0; i<(h*w); i=i+1) {
 		#x = #x + #y;
 		x = ++x;
 		y = ++y;
 	}
 }
 
+/* 1D Int Matrix subtraction:
+	Takes in two matrix pointers and the length of the matrices
+	Subtracts the second matrix from the first in memory */
+
+void sub_1D_int(int[] x, int[] y, int l) {
+	
+	int i;
+
+	for (i=0; i<l; i=i+1) {
+		#x = #x - #y;
+		x = ++x;
+		y = ++y;
+	}
+}
+
+/* 2D Int Matrix subtraction:
+	Takes in two matrix pointers and the height and width of the matrices
+	Subtracts the second matrix from the first in memory */
+
+void sub_2D_int(int[][] x, int[][] y, int h, int w) {
+	
+	int i;
+
+	for (i=0; i<(h*w); i=i+1) {
+		#x = #x - #y;
+		x = ++x;
+		y = ++y;
+	}
+}
+
+Scalar ops:
++ add 1D matrix int 
++ add 2D matrix int 
++ sub 1D matrix int 
++ sub 2D matrix int 
+mult 1D matrix int 
+mult 2D matrix int 
+div 1D matrix int 
+div 2D matrix int 
+
+Matrix ops:
+print 1D matrix int
+print 2D matrix int 
+add 1D matrix matrix float
+add 2D matrix matrix float
+sub 1D matrix matrix int
+sub 2D matrix matrix int
+sub 1D matrix matrix float
+sub 2D matrix matrix float
+mult 1D matrix matrix int
+mult 2D matrix matrix int
+mult 1D matrix matrix float
+mult 2D matrix matrix float
+div 1D matrix matrix int
+div 2D matrix matrix int
+div 1D matrix matrix float
+div 2D matrix matrix float
+
+determinant 2D matrix 

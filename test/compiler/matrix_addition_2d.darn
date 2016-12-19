@@ -1,8 +1,8 @@
-void add2D(int[][] x, int[][] y, int height, int width) {
+void add2D(int[][] x, int[][] y, int h, int w) {
 	
 	int i;
 
-	for (i=0; i<(height*width); i=i+1) {
+	for (i=0; i<(h*w); i=i+1) {
 		#x = #x + #y;
 		x = ++x;
 		y = ++y;

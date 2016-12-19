@@ -1,0 +1,24 @@
+void add_1D_scalar(int[] x, int scalar, int length) {
+	
+	int i;
+
+	for (i=0; i<length; i=i+1) {
+		#x = #x + scalar;
+		x = ++x;
+	}
+}
+
+int main() {
+	
+	int[4] x;
+
+	int i;
+	for (i=0; i<4; i=i+1) {
+		x[i] = 3;
+	}
+
+	add_1D_scalar(%x, 3, 4);
+
+	print(x[0]);
+
+}
