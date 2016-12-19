@@ -230,21 +230,56 @@ void sub_2D_float(float[][] x, float[][] y, int h, int w) {
 	}
 }
 
-/*int[][] mult_2D_int(int[][] x, int[][] y, int h1, int w1, int h2, int w2) {
+/*
+	2D Int Matrix Multiplication
 
-	int[4][4] a;
+
+*/
+void mult_2D_int(int[][] x, int[][] y, int[][] output, int h1, int w1, int h2, int w2) {
+
 	int i;
 	int j;
+	int k; 
+	int l;
+	int[][] temp_x;
+	int[][] temp_y;
+	int[][] temp_output;
+	temp_output = output;
 
+	/* Zero out output matrix*/
 	for (i=0;i<h1;i=i+1) {
-		for (j=0;j<h2;j=j+1) {
-			a[i][j] = 3;
+		for (j=0;j<w2;j=j+1) {
+			#temp_output = 0;
+			temp_output = ++temp_output;
 		}
 	}
-	return(%%a);
+
+	for (i=0;i<h1;i=i+1) {
+		for (j=0;j<w2;j=j+1) {
+			temp_x = x;
+			temp_y = y;
+
+			for (k=0;k<(i*w1);k=k+1){
+				temp_x = ++temp_x;
+		
+			}
+			for (l=0;l<j;l=l+1) {
+				temp_y = ++temp_y;
+			}
+
+			for (k=0;k<w1;k=k+1) {
+				#output = #output + (#temp_x * #temp_y);
+				temp_x = ++temp_x;	
+				for (l=0;l<w2;l=l+1) {
+					temp_y = ++temp_y;
+				}
+			}
+			output = ++output;
+		}
+	}
 
 }
-*/
+
 
 
 /*
