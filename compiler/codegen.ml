@@ -167,6 +167,18 @@ let translate (globals, functions) =
         L.build_in_bounds_gep (L.build_load (L.build_in_bounds_gep (lookup s) [| L.const_int i32_t 0 |] s builder) s builder) [| L.const_int i32_t 1 |] s builder
     in
 
+    let rec matrix_expression e =
+       match e with
+       | A.IntLiteral i -> i
+       | A.Binop (e1, op, e2) -> (match op with
+              A.Add     -> (matrix_expression e1) + (matrix_expression e2)
+            | A.Sub     -> (matrix_expression e1) - (matrix_expression e2)
+            | A.Mul    -> (matrix_expression e1) * (matrix_expression e2)
+            | A.Div     -> (matrix_expression e1) / (matrix_expression e2)
+            | _ -> 0)
+       | _ -> 0
+    in
+
     (* Construct code for an expression; return its value *)
     let rec expr builder = function
     A.IntLiteral i -> L.const_int i32_t i
@@ -184,8 +196,17 @@ let translate (globals, functions) =
                                                       | _ -> L.const_int i32_t 0 )
       | A.Width s -> (match (type_of_identifier s) with A.Matrix2DType(_, _, l) -> L.const_int i32_t l
                                                       | _ -> L.const_int i32_t 0 )
-      | A.Matrix1DAccess (s, e1) -> let i1 = expr builder e1 in build_1D_matrix_access s (L.const_int i32_t 0) i1 builder false
-      | A.Matrix2DAccess (s, e1, e2) -> let i1 = expr builder e1 and i2 = expr builder e2 in build_2D_matrix_access s (L.const_int i32_t 0) i1 i2 builder false
+      | A.Matrix1DAccess (s, e1) -> let i1 = expr builder e1 in (match (type_of_identifier s) with 
+                                                      A.Matrix1DType(_, l) -> (
+                                                        if (matrix_expression e1) >= l then raise(MatrixOutOfBounds)
+                                                        else build_1D_matrix_access s (L.const_int i32_t 0) i1 builder false)
+                                                      | _ -> build_1D_matrix_access s (L.const_int i32_t 0) i1 builder false )
+      | A.Matrix2DAccess (s, e1, e2) -> let i1 = expr builder e1 and i2 = expr builder e2 in (match (type_of_identifier s) with 
+                                                      A.Matrix2DType(_, l1, l2) -> (
+                                                        if (matrix_expression e1) >= l1 then raise(MatrixOutOfBounds)
+                                                        else if (matrix_expression e2) >= l2 then raise(MatrixOutOfBounds)
+                                                        else build_2D_matrix_access s (L.const_int i32_t 0) i1 i2 builder false)
+                                                      | _ -> build_2D_matrix_access s (L.const_int i32_t 0) i1 i2 builder false )
       | A.PointerIncrement (s) ->  build_pointer_increment s builder false
       | A.Dereference (s) -> build_pointer_dereference s builder false
       | A.Binop (e1, op, e2) ->
@@ -259,30 +280,23 @@ let translate (globals, functions) =
           | _, _ -> raise(IllegalAssignment)
         in
         build_ops_with_types e1'_type e2'_type
-    (*
-    (match op with
-      A.Add     -> L.build_add
-    | A.Sub     -> L.build_sub
-    | A.Mul    -> L.build_mul
-          | A.Div     -> L.build_sdiv
-    | A.And     -> L.build_and
-    | A.Or      -> L.build_or
-    | A.Eq   -> L.build_icmp L.Icmp.Eq
-    | A.Neq     -> L.build_icmp L.Icmp.Ne
-    | A.Less    -> L.build_icmp L.Icmp.Slt
-    | A.Leq     -> L.build_icmp L.Icmp.Sle
-    | A.Greater -> L.build_icmp L.Icmp.Sgt
-    | A.Geq     -> L.build_icmp L.Icmp.Sge
-    ) e1' e2' "tmp" builder
-*)
       | A.Unop(op, e) ->
     let e' = expr builder e in
     (match op with
           | A.Not     -> L.build_not) e' "tmp" builder
       | A.Assign (e1, e2) -> let e1' = (match e1 with
                                             A.Id s -> lookup s
-                                          | A.Matrix1DAccess (s, e1) -> let i1 = expr builder e1 in build_1D_matrix_access s (L.const_int i32_t 0) i1 builder true
-                                          | A.Matrix2DAccess (s, e1, e2) -> let i1 = expr builder e1 and i2 = expr builder e2 in build_2D_matrix_access s (L.const_int i32_t 0) i1 i2 builder true
+                                          | A.Matrix1DAccess (s, e1) -> let i1 = expr builder e1 in (match (type_of_identifier s) with 
+                                                      A.Matrix1DType(_, l) -> (
+                                                        if (matrix_expression e1) >= l then raise(MatrixOutOfBounds)
+                                                        else build_1D_matrix_access s (L.const_int i32_t 0) i1 builder true)
+                                                      | _ -> build_1D_matrix_access s (L.const_int i32_t 0) i1 builder true )
+                                          | A.Matrix2DAccess (s, e1, e2) -> let i1 = expr builder e1 and i2 = expr builder e2 in (match (type_of_identifier s) with 
+                                                      A.Matrix2DType(_, l1, l2) -> (
+                                                        if (matrix_expression e1) >= l1 then raise(MatrixOutOfBounds)
+                                                        else if (matrix_expression e2) >= l2 then raise(MatrixOutOfBounds)
+                                                        else build_2D_matrix_access s (L.const_int i32_t 0) i1 i2 builder true)
+                                                      | _ -> build_2D_matrix_access s (L.const_int i32_t 0) i1 i2 builder true )
                                           | A.PointerIncrement(s) -> build_pointer_increment s builder true
                                           | A.Dereference(s) -> build_pointer_dereference s builder true
                                           | _ -> raise (IllegalAssignment)
