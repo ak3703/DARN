@@ -1,0 +1,28 @@
+int main() {
+	
+	int[4][3] a;
+	int[3][4] b;
+	int[4][4] c;
+
+	int i;
+	int j;
+
+	for (i=0; i<height(a); i=i+1) {
+		for (j=0;j<width(a);j=j+1) {
+			a[i][j] = i+j;
+		}
+	}
+
+	for (i=0; i<height(b); i=i+1) {
+		for (j=0;j<width(b);j=j+1) {
+			b[i][j] = i+j;
+		}
+	}
+
+	mult_2D_int(%%a, %%b, %%c, height(a), width(a), height(b), width(c));
+
+	print(c[3][3]);
+
+
+}
+

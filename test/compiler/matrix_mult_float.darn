@@ -1,0 +1,28 @@
+int main() {
+	
+	float[4][3] a;
+	float[3][4] b;
+	float[4][4] c;
+
+	int i;
+	int j;
+
+	for (i=0; i<height(a); i=i+1) {
+		for (j=0;j<width(a);j=j+1) {
+			a[i][j] = 1.0+2.0;
+		}
+	}
+
+	for (i=0; i<height(b); i=i+1) {
+		for (j=0;j<width(b);j=j+1) {
+			b[i][j] = 1.0+2.0;
+		}
+	}
+
+	mult_2D_float(%%a, %%b, %%c, height(a), width(a), height(b), width(c));
+
+	printf(c[3][3]);
+
+
+}
+

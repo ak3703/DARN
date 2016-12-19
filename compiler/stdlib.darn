@@ -230,21 +230,192 @@ void sub_2D_float(float[][] x, float[][] y, int h, int w) {
 	}
 }
 
-/*int[][] mult_2D_int(int[][] x, int[][] y, int h1, int w1, int h2, int w2) {
+/*
+	2D Int Matrix Multiplication
+	Takes in two matrices for multiplication and an output matrix.
+	Takes in the height and width of the two input matrices
+	The Output matrix must be of size height = height of 1st matrix
+	and width = width of 2nd matrix.
+	Store the variables in the output matrix. Returns nothing.
 
-	int[4][4] a;
+*/
+void mult_2D_int(int[][] x, int[][] y, int[][] output, int h1, int w1, int h2, int w2) {
+
 	int i;
 	int j;
+	int k; 
+	int l;
+	int[][] temp_x;
+	int[][] temp_y;
+	int[][] temp_output;
+	temp_output = output;
 
+	/* Zero out output matrix*/
 	for (i=0;i<h1;i=i+1) {
-		for (j=0;j<h2;j=j+1) {
-			a[i][j] = 3;
+		for (j=0;j<w2;j=j+1) {
+			#temp_output = 0;
+			temp_output = ++temp_output;
 		}
 	}
-	return(%%a);
+
+	for (i=0;i<h1;i=i+1) {
+		for (j=0;j<w2;j=j+1) {
+			temp_x = x;
+			temp_y = y;
+
+			for (k=0;k<(i*w1);k=k+1){
+				temp_x = ++temp_x;
+		
+			}
+			for (l=0;l<j;l=l+1) {
+				temp_y = ++temp_y;
+			}
+
+			for (k=0;k<w1;k=k+1) {
+				#output = #output + (#temp_x * #temp_y);
+				temp_x = ++temp_x;	
+				for (l=0;l<w2;l=l+1) {
+					temp_y = ++temp_y;
+				}
+			}
+			output = ++output;
+		}
+	}
 
 }
+
+/*
+	2D Float Matrix Multiplication
+	Takes in two matrices for multiplication and an output matrix.
+	Takes in the height and width of the two input matrices
+	The Output matrix must be of size height = height of 1st matrix
+	and width = width of 2nd matrix.
+	Store the variables in the output matrix. Returns nothing.
+
 */
+void mult_2D_float(float[][] x, float[][] y, float[][] output, int h1, int w1, int h2, int w2) {
+
+	int i;
+	int j;
+	int k; 
+	int l;
+	float[][] temp_x;
+	float[][] temp_y;
+	float[][] temp_output;
+	temp_output = output;
+
+	/* Zero out output matrix*/
+	for (i=0;i<h1;i=i+1) {
+		for (j=0;j<w2;j=j+1) {
+			#temp_output = 0.0;
+			temp_output = ++temp_output;
+		}
+	}
+
+	for (i=0;i<h1;i=i+1) {
+		for (j=0;j<w2;j=j+1) {
+			temp_x = x;
+			temp_y = y;
+
+			for (k=0;k<(i*w1);k=k+1){
+				temp_x = ++temp_x;
+		
+			}
+			for (l=0;l<j;l=l+1) {
+				temp_y = ++temp_y;
+			}
+
+			for (k=0;k<w1;k=k+1) {
+				#output = #output + (#temp_x * #temp_y);
+				temp_x = ++temp_x;	
+				for (l=0;l<w2;l=l+1) {
+					temp_y = ++temp_y;
+				}
+			}
+			output = ++output;
+		}
+	}
+
+}
+
+/*
+	2D Int Matrix Transpose
+	Takes in one input matrix and an output matrix.
+	Takes in the height and width of the input matrix
+	The Output matrix must be of size height = width of input matrix
+	and width = height of input matrix.
+	Computes the transpose of the input matrix.
+	Store the variables in the output matrix. Returns nothing.
+
+*/
+
+void transpose_2D_int(int[][] x, int[][] output, int h, int w) {
+
+	int i;
+	int j;
+	int k; 
+	int[][] temp_x;
+	int[][] temp_output;
+	temp_x = x;
+	temp_output = output;
+
+	/* Zero out output matrix*/
+	for (i=0;i<w;i=i+1) {
+		for (j=0;j<h;j=j+1) {
+			#temp_output = 0;
+			temp_output = ++temp_output;
+		}
+	}
+	
+	/* Copy into output matrix */
+	for (i=0;i<w;i=i+1) {
+		for (j=0;j<h;j=j+1) {
+			temp_x = x;
+			for (k=0;k<i;k=k+1) {
+				temp_x = ++temp_x;
+			}
+
+			for (k=0;k<(j*w);k=k+1) {
+				temp_x = ++temp_x;
+			}
+			
+			#output = #temp_x;
+
+			output = ++output;
+
+		}
+	}
+
+void print_1D_int(int[] x, int l) {
+	int i;
+	for (i=0; i<l; i=i+1) {
+		print(#x);
+		x = ++x;
+	}
+}
+
+void print_1D_float(float[] x, int l) {
+	int i;
+	for (i=0; i<l; i=i+1) {
+		printf(#x);
+		x = ++x;
+	}
+}
+
+void print_2D_int(int[][] x, int h, int w) {
+	int i;
+	for (i=0; i<(h*w); i=i+1) {
+		print(#x);
+		x = ++x;
+	}
+}
+
+void print_2D_float(float[][] x, int h, int w) {
+	int i;
+	for (i=0; i<(h*w); i=i+1) {
+		printf(#x);
+		x = ++x;
+	}
 
 
 /*
@@ -270,8 +441,8 @@ Basic:
 + sub 2D matrix matrix float
 
 Mult:
-2D int matrix mult
-2D float matrix mult
++ 2D int matrix mult
++ 2D float matrix mult
 
 print 1D matrix int
 print 2D matrix int 
