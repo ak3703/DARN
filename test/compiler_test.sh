@@ -5,7 +5,7 @@ printf "Testing compiler \n"
 
 for input_file in $INPUT_FILES; do
     output_file=${input_file/.darn/.out}
-    ../compiler/darn.native < $input_file | /usr/local/opt/llvm/bin/lli | cmp $output_file -
+    ../compiler/darn.native -c $input_file dummy_stdlib.txt | /usr/local/opt/llvm/bin/lli | cmp $output_file -
     if [ "$?" -eq 0 ]; then
         printf "$input_file \t\t  Success \n"
     else

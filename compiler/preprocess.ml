@@ -13,4 +13,4 @@ let process_files filename1 filename2 =
 	List.rev (lines) in 
 
 	let concat = List.fold_left (fun a x -> a ^ x) "" 
-in concat (read_all_lines filename1) ^ " \n " ^ concat (read_all_lines filename2)
+in " \n " ^ concat (read_all_lines filename1) ^ " \n " ^ concat (read_all_lines filename2)

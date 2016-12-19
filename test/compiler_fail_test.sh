@@ -3,7 +3,7 @@ printf "Testing fail tests \n"
 
 for input_file in $INPUT_FILES; do
     output_file=${input_file/.darn/.out}
-    ../compiler/darn.native < $input_file 2> temp.txt
+    ../compiler/darn.native -c $input_file dummy_stdlib 2> temp.txt
     cmp $output_file temp.txt
 
     if [ "$?" -eq 0 ]; then

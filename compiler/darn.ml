@@ -1,4 +1,4 @@
-(* ./darn.native -c file.darn standardlib.darn)
+(* ./darn.native -c file.darn standardlib.darn *)
 
 type action = AST | LLVM_IR | Compile
 
