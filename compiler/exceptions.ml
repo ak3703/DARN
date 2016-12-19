@@ -5,3 +5,5 @@ exception IllegalAssignment
 exception IllegalPointerType
 
 exception MatrixOutOfBounds
+
+exception IllegalUnop

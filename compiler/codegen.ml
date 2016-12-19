@@ -254,7 +254,7 @@ let translate (globals, functions) =
         let list_of_e1'_llvalue = Str.split space string_of_e1'_llvalue
         and list_of_e2'_llvalue = Str.split space string_of_e2'_llvalue in
 
-        let i32_re = Str.regexp "i32\\|i32*"
+        let i32_re = Str.regexp "i32\\|i32*\\|i8\\|i8*\\|i1\\|i1*"
         and float_re = Str.regexp "double\\|double*" in
 
         let rec match_string regexp str_list i =
@@ -281,9 +281,59 @@ let translate (globals, functions) =
         in
         build_ops_with_types e1'_type e2'_type
       | A.Unop(op, e) ->
-    let e' = expr builder e in
-    (match op with
-          | A.Not     -> L.build_not) e' "tmp" builder
+        let e' = expr builder e in
+
+        let float_uops operator =
+          match operator with
+            A.Neg -> L.build_fneg e' "tmp" builder
+          | A.Not -> raise(IllegalUnop)  in
+
+        let int_uops operator =
+          match operator with
+            A.Neg -> L.build_neg e' "tmp" builder
+          | A.Not -> L.build_not e' "tmp" builder in
+
+        let bool_uops operator = 
+          match operator with
+          A.Neg -> L.build_neg e' "tmp" builder
+          | A.Not -> L.build_not e' "tmp" builder in
+
+        let string_of_e'_llvalue = L.string_of_llvalue e' in
+
+        let space = Str.regexp " " in
+
+        let list_of_e'_llvalue = Str.split space string_of_e'_llvalue in
+
+        let i32_re = Str.regexp "i32\\|i32*"
+        and float_re = Str.regexp "double\\|double*"
+        and bool_re = Str.regexp "i1\\|i1*" in
+
+        let rec match_string regexp str_list i =
+           let length = List.length str_list in
+           match (Str.string_match regexp (List.nth str_list i) 0) with
+             true -> true
+           | false -> if (i > length - 2) then false else match_string regexp str_list (succ i) in
+
+        let get_type llvalue =
+           match (match_string i32_re llvalue 0) with
+             true  -> "int"
+           | false -> (match (match_string float_re llvalue 0) with
+                         true -> "float"
+                       | false -> (match (match_string bool_re llvalue 0) with
+                                    true -> "bool"
+                                  | false -> "")) in
+
+        let e'_type = get_type list_of_e'_llvalue  in
+
+        let build_ops_with_type typ =
+          match typ with
+            "int" -> int_uops op
+          | "float" -> float_uops op
+          | "bool" -> bool_uops op
+          | _ -> raise(IllegalAssignment)
+        in
+
+        build_ops_with_type e'_type
       | A.Assign (e1, e2) -> let e1' = (match e1 with
                                             A.Id s -> lookup s
                                           | A.Matrix1DAccess (s, e1) -> let i1 = expr builder e1 in (match (type_of_identifier s) with 
