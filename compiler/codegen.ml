@@ -192,7 +192,7 @@ let translate (globals, functions) =
         let e1' = expr builder e1
         and e2' = expr builder e2 in
           let float_bop operator = 
-            (match op with
+            (match operator with
               A.Add     -> L.build_fadd
             | A.Sub     -> L.build_fsub
             | A.Mul    -> L.build_fmul
@@ -209,7 +209,7 @@ let translate (globals, functions) =
           in 
 
           let int_bop operator = 
-            (match op with
+            (match operator with
               A.Add     -> L.build_add
             | A.Sub     -> L.build_sub
             | A.Mul    -> L.build_mul
