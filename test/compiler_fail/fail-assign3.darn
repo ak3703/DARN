@@ -1,0 +1,10 @@
+void test()
+{
+  int b;
+}
+
+int main()
+{
+  int i;
+  i = test();
+}
