@@ -386,7 +386,7 @@ void transpose_2D_int(int[][] x, int[][] output, int h, int w) {
 		}
 	}
 }
-<<<<<<< HEAD
+
 
 /*
 	2D Float Matrix Transpose
@@ -437,8 +437,6 @@ void transpose_2D_float(float[][] x, float[][] output, int h, int w) {
 	}
 }
 
-=======
->>>>>>> cf6e7ea257e9a8a1b8369e7722c15ebb85151df1
 void print_1D_int(int[] x, int l) {
 	int i;
 	prints("[\t");
