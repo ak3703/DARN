@@ -94,8 +94,8 @@ let translate (globals, functions) =
     let (the_function, _) = StringMap.find fdecl.A.fname function_decls in
     let builder = L.builder_at_end context (L.entry_block the_function) in
 
-    let int_format_str = L.build_global_stringptr "%d\n" "fmt" builder 
-    and float_format_str = L.build_global_stringptr "%f\n" "fmt" builder in
+    let int_format_str = L.build_global_stringptr "%d" "fmt" builder 
+    and float_format_str = L.build_global_stringptr "%f" "fmt" builder in
     (* add float... and float_format_str = L.build_global_stringptr "%f\n" "fmt" builder in *)
     
     (* Construct the function's "locals": formal arguments and locally
@@ -310,7 +310,7 @@ let translate (globals, functions) =
     L.build_call printf_func [| float_format_str ; (expr builder e) |]
       "printf" builder
       | A.Call ("prints", [e]) -> let get_string = function A.StringLiteral s -> s | _ -> "" in
-      let s_ptr = L.build_global_stringptr ((get_string e) ^ "\n") ".str" builder in
+      let s_ptr = L.build_global_stringptr ((get_string e)) ".str" builder in
     L.build_call printf_func [| s_ptr |] 
       "printf" builder
       | A.Call (f, act) ->
