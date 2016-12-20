@@ -135,6 +135,21 @@ let check_function func =
     | Matrix2DPointer(t) -> t
     | _ -> raise ( Failure ("cannot dereference a non-pointer type")) in
 
+    let matrix_type s = match (List.hd s) with
+    | IntLiteral _ -> Matrix1DType(Int, List.length s)
+    | FloatLiteral _ -> Matrix1DType(Float, List.length s)
+    | BoolLiteral _ -> Matrix1DType(Bool, List.length s)
+    | _ -> raise ( Failure ("Cannot instantiate a matrix of that type")) in
+
+    let rec check_all_matrix_literal m ty idx =
+      let length = List.length m in
+        match (ty, List.nth m idx) with
+      (Matrix1DType(Int, _), IntLiteral _) -> if idx == length - 1 then Matrix1DType(Int, length) else check_all_matrix_literal m (Matrix1DType(Int, length)) (succ idx)
+    | (Matrix1DType(Float, _), FloatLiteral _) -> if idx == length - 1 then Matrix1DType(Float, length) else check_all_matrix_literal m (Matrix1DType(Float, length)) (succ idx)
+    | (Matrix1DType(Bool, _), BoolLiteral _) -> if idx == length - 1 then Matrix1DType(Bool, length) else check_all_matrix_literal m (Matrix1DType(Bool, length)) (succ idx)
+    | _ -> raise (Failure ("illegal matrix literal"))
+  in
+
 (****** Establish the Type of Each Expression, Operator, Function Call, Statement *****)
 (* Return the type of an expression or throw an exception *)
 	let rec expr = function
@@ -145,6 +160,7 @@ let check_function func =
       | StringLiteral _ -> String
       | Id s -> type_of_identifier s
       | PointerIncrement(s) -> check_pointer_type (type_of_identifier s)
+      | MatrixLiteral s -> check_all_matrix_literal s (matrix_type s) 0
       | Matrix1DAccess(s, e1) -> let _ = (match (expr e1) with
                                           Int -> Int
                                         | _ -> raise (Failure ("attempting to access with a non-integer type"))) in
