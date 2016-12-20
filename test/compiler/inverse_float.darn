@@ -1,0 +1,8 @@
+int main(){
+	float[2][2] m;
+	m[0][0] = 5.0;
+	m[0][1] = 1.0;
+	m[1][0] = 1.5;
+	m[1][1] = 2.0;
+	printf(inverse_float(%%m, height(m), width(m)));
+}
