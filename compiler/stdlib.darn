@@ -437,13 +437,27 @@ void transpose_2D_float(float[][] x, float[][] output, int h, int w) {
 	}
 }
 
+/* 
+	Takes in 1D matrix pointer and the matrix length  
+	populates it with zeros
+*/
 void zero_1D_int(int[] x, int l) {
 	populate_1D_int(x,0,l);
 }
 
+/* 
+	Takes in 2D matrix pointer and the matrix height and width  
+	populates it with zeros
+*/
+
 void zero_2D_int(int[][] x, int h, int w) {
 	populate_2D_int(x,0,h,w);
 }
+
+/* 
+	Takes in 1D matrix pointer and the matrix length  
+	populates it with a scalar 'a'
+*/
 
 void populate_1D_int(int[] x, int a, int l) {
 	int i;
@@ -453,6 +467,11 @@ void populate_1D_int(int[] x, int a, int l) {
 	}
 }
 
+/* 
+	Takes in 2D matrix pointer and the matrix height and width
+	populates it with a scalar 'a'
+*/
+
 void populate_2D_int(int[][] x, int a, int h, int w) {
 	int i;
 	for (i=0;i<(h*w);i=i+1) {
@@ -461,61 +480,8 @@ void populate_2D_int(int[][] x, int a, int h, int w) {
 	}
 }
 
-void print_1D_int(int[] x, int l) {
-	int i;
-	prints("[\t");
-	for (i=0; i<l; i=i+1) {
-		print(#x);
-		prints("\t");
-		x = ++x;
-	}
-	prints("]\n");
-}
-
-void print_1D_float(float[] x, int l) {
-	int i;
-	prints("[\t");
-	for (i=0; i<l; i=i+1) {
-		printf(#x);
-		prints("\t");
-		x = ++x;
-	}
-	prints("]\n");
-}
-
-void print_2D_int(int[][] x, int h, int w) {
-	int i;
-	int j;
-	prints("[\n");
-	for (i=0; i<h; i=i+1) {
-		prints("|\t");
-		for (j=0; j<w; j=j+1) {
-			print(#x);	
-			prints("\t");
-			x = ++x;
-		}
-		prints("|\n");
-	}
-	prints("]\n");
-}
-
-void print_2D_float(float[][] x, int h, int w) {
-	int i;
-	int j;
-	prints("[\n");
-	for (i=0; i<h; i=i+1) {
-		prints("|\t");
-		for (j=0; j<w; j=j+1) {
-			printf(#x);	
-			prints("\t");
-			x = ++x;
-		}
-		prints("|\n");
-	}
-	prints("]\n");
-}
-
 /* Determinant of 2x2 and 3x3 for Ints:
+	Takes in 2D matrix pointer and matrix height and width
 	Finds the determinant of a matrix of ints */
 
 int det_int(int[][] x, int he, int w) {
@@ -559,6 +525,7 @@ int det_int(int[][] x, int he, int w) {
 }
 
 /* Determinant of 2x2 and 3x3 for Floats:
+	Takes in 2D matrix pointer and matrix height and width
 	Finds the determinant of a matrix of floats */
 
 float det_float(float[][] x, int he, int w) {
@@ -601,6 +568,11 @@ float det_float(float[][] x, int he, int w) {
 	return det;
 }
 
+/* Computes the inverse of a 2D float matrix
+	Takes in matrix pointer, height and width
+	returns the inverse
+	*/
+
 float inverse_float(float[][] x, int h, int w){
 	float ret;
 	if ((h==3 && w==3) || (h==2 && w==2)){
@@ -613,4 +585,70 @@ float inverse_float(float[][] x, int h, int w){
 		return 0.0;
 	}
 }
+
+/* ------------ PRETTY PRINTING ------------*/
+
+/* Print 1D matrix of ints, takes in matrix pointer and matrix length */ 
+
+void print_1D_int(int[] x, int l) {
+	int i;
+	prints("[\t");
+	for (i=0; i<l; i=i+1) {
+		print(#x);
+		prints("\t");
+		x = ++x;
+	}
+	prints("]\n");
+}
+
+/* Print 1D matrix of floats, takes in matrix pointer and matrix length */ 
+
+void print_1D_float(float[] x, int l) {
+	int i;
+	prints("[\t");
+	for (i=0; i<l; i=i+1) {
+		printf(#x);
+		prints("\t");
+		x = ++x;
+	}
+	prints("]\n");
+}
+
+/* Print 2D matrix of ints, takes in matrix pointer and matrix height and width */ 
+
+void print_2D_int(int[][] x, int h, int w) {
+	int i;
+	int j;
+	prints("[\n");
+	for (i=0; i<h; i=i+1) {
+		prints("|\t");
+		for (j=0; j<w; j=j+1) {
+			print(#x);	
+			prints("\t");
+			x = ++x;
+		}
+		prints("|\n");
+	}
+	prints("]\n");
+}
+
+/* Print 2D matrix of floats, takes in matrix pointer and matrix height and width */ 
+
+void print_2D_float(float[][] x, int h, int w) {
+	int i;
+	int j;
+	prints("[\n");
+	for (i=0; i<h; i=i+1) {
+		prints("|\t");
+		for (j=0; j<w; j=j+1) {
+			printf(#x);	
+			prints("\t");
+			x = ++x;
+		}
+		prints("|\n");
+	}
+	prints("]\n");
+}
+
+
 
