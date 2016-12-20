@@ -7,3 +7,5 @@ exception IllegalPointerType
 exception MatrixOutOfBounds
 
 exception IllegalUnop
+
+exception WrongReturn

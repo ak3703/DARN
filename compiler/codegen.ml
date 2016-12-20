@@ -426,7 +426,11 @@ let translate (globals, functions) =
     (* Add a return if the last block falls off the end *)
     add_terminal builder (match fdecl.A.typ with
         A.Void -> L.build_ret_void
-      | t -> L.build_ret (L.const_int (ltype_of_typ t) 0))
+      | A.Int -> L.build_ret (L.const_int i32_t 0)
+      | A.Float -> L.build_ret (L.const_float float_t 0.0)
+      | A.Bool -> L.build_ret (L.const_int i1_t 0)
+      | A.Char -> L.build_ret (L.const_int i8_t 0)
+      | _ -> raise (WrongReturn))
   in
 
   List.iter build_function_body functions;
