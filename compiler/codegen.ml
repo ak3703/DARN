@@ -179,6 +179,13 @@ let translate (globals, functions) =
        | _ -> 0
     in
 
+    let find_matrix_type matrix =
+      match (List.hd matrix) with
+        A.IntLiteral _ -> ltype_of_typ (A.Int)
+      | A.FloatLiteral _ -> ltype_of_typ (A.Float)
+      | A.BoolLiteral _ -> ltype_of_typ (A.Bool)
+      | _ -> raise (UnsupportedMatrixType) in
+
     (* Construct code for an expression; return its value *)
     let rec expr builder = function
     A.IntLiteral i -> L.const_int i32_t i
@@ -188,6 +195,7 @@ let translate (globals, functions) =
       | A.StringLiteral s -> L.const_string context s
       | A.Noexpr -> L.const_int i32_t 0
       | A.Id s -> L.build_load (lookup s) s builder
+      | A.MatrixLiteral s -> L.const_array (find_matrix_type s) (Array.of_list (List.map (expr builder) s))
       | A.Matrix1DReference (s) -> build_1D_matrix_argument s builder
       | A.Matrix2DReference (s) -> build_2D_matrix_argument s builder
       | A.Len s -> (match (type_of_identifier s) with A.Matrix1DType(_, l) -> L.const_int i32_t l 

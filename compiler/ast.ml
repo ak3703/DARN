@@ -28,6 +28,7 @@ type expr =
     | Unop of uop * expr
     | Assign of expr * expr
     | PointerIncrement of string
+    | MatrixLiteral of expr list
     | Matrix1DAccess of string * expr 
     | Matrix2DAccess of string * expr * expr
     | Len of string
@@ -76,6 +77,24 @@ let string_of_uop = function
       Not -> "!"
      | Neg -> "-"
 
+let string_of_matrix m =
+  let rec string_of_matrix_lit = function
+      [] -> "]"
+    | [hd] -> (match hd with
+                IntLiteral(i) -> string_of_int i
+              | FloatLiteral(i) -> string_of_float i
+              | BoolLiteral(i) -> string_of_bool i
+              | Id(s) -> s
+              | _ -> raise( Failure("Illegal expression in matrix literal") )) ^ string_of_matrix_lit []
+    | hd::tl -> (match hd with
+                    IntLiteral(i) -> string_of_int i ^ ", "
+                  | FloatLiteral(i) -> string_of_float i ^ ", "
+                  | BoolLiteral(i) -> string_of_bool i ^ ", "
+                  | Id(s) -> s
+                  | _ -> raise( Failure("Illegal expression in matrix literal") )) ^ string_of_matrix_lit tl
+  in
+  "[" ^ string_of_matrix_lit m
+
 (* string print tree*)
 let rec string_of_expr = function
     IntLiteral(i) -> string_of_int i
@@ -89,6 +108,7 @@ let rec string_of_expr = function
     bop) ^ " " ^ (string_of_expr r2)
     | PointerIncrement(s) -> "++" ^ s 
     | Assign(r1, r2) -> (string_of_expr r1) ^ " =  " ^ (string_of_expr r2) 
+    | MatrixLiteral(m) -> string_of_matrix m
     | Matrix1DAccess(s, r1) -> s ^ "[" ^ (string_of_expr r1) ^ "]"
     | Matrix2DAccess(s, r1, r2) -> s ^ "[" ^ (string_of_expr r1) ^ "]" ^ "[" ^ (string_of_expr r2) ^ "]"
     | Len(s) -> "len(" ^ s ^ ")"

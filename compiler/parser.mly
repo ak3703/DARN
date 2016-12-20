@@ -138,15 +138,15 @@ expr_opt:
 expr:
     arith_ops                                       { $1 }
     | bool_ops                                      { $1 }
+    | primitives                                    { $1 }
     | expr ASSIGN expr                              { Assign($1, $3)  }
     | LPAREN expr RPAREN                            { $2 }
-    | INTLITERAL                                    { IntLiteral($1)   }
-    | FLOATLITERAL                                  { FloatLiteral($1) }
     | CHARLITERAL                                   { CharLiteral($1) }
     | STRINGLITERAL                                 { StringLiteral($1) }
     | TRUE                                          { BoolLiteral(true) }
     | FALSE                                         { BoolLiteral(false) }
     | ID LPAREN actuals_opt RPAREN                  { Call($1, $3)}
+    | LBRACK matrix_literal RBRACK                  { MatrixLiteral(List.rev $2) }
     | ID LBRACK expr  RBRACK %prec NOLBRACK         { Matrix1DAccess($1, $3)}
     | ID LBRACK expr  RBRACK LBRACK expr  RBRACK    { Matrix2DAccess($1, $3, $6)}
     | LEN LPAREN ID RPAREN                          { Len($3) }
@@ -158,6 +158,13 @@ expr:
     | OCTOTHORP ID                                  { Dereference($2)}
     | PLUS PLUS ID                                  { PointerIncrement($3) }
 
+primitives:
+    INTLITERAL                                    { IntLiteral($1)   }
+  | FLOATLITERAL                                  { FloatLiteral($1) }
+
+matrix_literal:
+    primitives                      { [$1] }
+  | matrix_literal COMMA primitives { $3 :: $1 }
 
 arith_ops:
     expr PLUS expr    {Binop($1, Add, $3)  }
