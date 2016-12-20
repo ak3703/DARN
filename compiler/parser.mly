@@ -153,8 +153,8 @@ expr:
     | HEIGHT LPAREN ID RPAREN                       { Height($3) }
     | WIDTH LPAREN ID RPAREN                        { Width($3) }
     | ID 			                                      { Id($1)} 
-    | PERCENT ID                                  { Matrix1DReference($2)}
-    | PERCENT PERCENT ID                        { Matrix2DReference($3)}
+    | PERCENT ID                                    { Matrix1DReference($2)}
+    | PERCENT PERCENT ID                            { Matrix2DReference($3)}
     | OCTOTHORP ID                                  { Dereference($2)}
     | PLUS PLUS ID                                  { PointerIncrement($3) }
 

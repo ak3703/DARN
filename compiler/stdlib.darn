@@ -561,8 +561,8 @@ Mult:
 + 2D int matrix mult
 + 2D float matrix mult
 
-print 1D matrix int
-print 2D matrix int 
++ print 1D matrix int
++ print 2D matrix int 
 
 determinant 2D matrix 
 */
