@@ -437,6 +437,30 @@ void transpose_2D_float(float[][] x, float[][] output, int h, int w) {
 	}
 }
 
+void zero_1D_int(int[] x, int l) {
+	populate_1D_int(x,0,l);
+}
+
+void zero_2D_int(int[][] x, int h, int w) {
+	populate_2D_int(x,0,h,w);
+}
+
+void populate_1D_int(int[] x, int a, int l) {
+	int i;
+	for (i=0;i<l;i=i+1) {
+		#x = a;
+		x = ++x;
+	}
+}
+
+void populate_2D_int(int[][] x, int a, int h, int w) {
+	int i;
+	for (i=0;i<(h*w);i=i+1) {
+		#x = a;
+		x = ++x;
+	}
+}
+
 void print_1D_int(int[] x, int l) {
 	int i;
 	prints("[\t");

@@ -1,8 +1,36 @@
-void populate_matrix(int[][] m, int w, int l) {
-	
+void populate_matrix(int[][] p, int h, int w) {
+	int i;
+	int j;
+
+	for (i=0; i<h; i=i+1) {
+		for (j=0; j<w; j=j+1) {
+			#p = (i*j);
+			p = ++p;
+		}
+	}
 
 }
 
 int main() {
+	int[5][10] m;
+	int[10][5] transpose;
+	int[5][5] output;
+
+	populate_2D_int(%%m, 3, height(m), width(m));
+
+	print_2D_int(%%m, height(m), width(m));
+
+	populate_matrix(%%m, height(m), width(m));
+
+	print_2D_int(%%m, height(m), width(m));
+
+	transpose_2D_int(%%m, %%transpose, height(m), width(m));
+
+	print_2D_int(%%transpose, height(transpose), width(transpose));
+
+	mult_2D_int(%%m, %%transpose, %%output, height(m), width(m), height(transpose), width(transpose));
+
+	print_2D_int(%%output, height(output), width(output));
+
 	
 }
