@@ -386,6 +386,7 @@ void transpose_2D_int(int[][] x, int[][] output, int h, int w) {
 		}
 	}
 }
+<<<<<<< HEAD
 
 /*
 	2D Float Matrix Transpose
@@ -436,6 +437,8 @@ void transpose_2D_float(float[][] x, float[][] output, int h, int w) {
 	}
 }
 
+=======
+>>>>>>> cf6e7ea257e9a8a1b8369e7722c15ebb85151df1
 void print_1D_int(int[] x, int l) {
 	int i;
 	prints("[\t");
@@ -488,6 +491,49 @@ void print_2D_float(float[][] x, int h, int w) {
 		prints("|\n");
 	}
 	prints("]\n");
+}
+
+/* Determinant of 2x2 and 3x3 for Ints:
+	Finds the determinant of a matrix of ints */
+
+int det_int(int[][] x, int he, int w) {
+	int a;
+	int b;
+	int c;
+	int d;
+	int e;
+	int f;
+	int g;
+	int h;
+	int i;
+	int det;
+	if ((he==2 && w==2) || (he==3 && w==3))  {
+		a = #x;
+		x = ++x;
+		b = #x;
+		x = ++x;
+		c = #x;
+		x = ++x;
+		d = #x;
+		x = ++x;
+		if (w==2){
+			det = (a*d)-(b*c);
+		} else {
+			e = #x;
+			x = ++x;
+			f = #x;
+			x = ++x;
+			g = #x;
+			x = ++x;
+			h = #x;
+			x = ++x;
+			i = #x;
+			det = a * (e * i - f * h) - b * (d * i - f * g) + c * (d * h - e * g);
+		}
+	} else {
+		return 0;
+	}
+	return det;
 }
 
 

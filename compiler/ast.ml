@@ -1,7 +1,7 @@
 type op = Add | Sub | Mul | Div | Less | Greater 
 					| Leq | Geq | Or | And | Eq | Neq 
 
-type uop = Not
+type uop = Not | Neg
 
 type typ = 
     Int 
@@ -74,6 +74,7 @@ let string_of_bop = function
       
 let string_of_uop = function
       Not -> "!"
+     | Neg -> "-"
 
 (* string print tree*)
 let rec string_of_expr = function

@@ -182,8 +182,9 @@ let check_function func =
         )
       | Unop(op, e) as ex -> let t = expr e in
 	 (match op with
-	   (*Neg when t = Int -> Int*)
-	 Not when t = Bool -> Bool
+	 Neg when t = Int -> Int
+   | Neg when t = Float -> Float
+	 | Not when t = Bool -> Bool
          | _ -> raise (Failure ("Illegal unary operator " ^ string_of_uop op ^
 	  		   string_of_typ t ^ " in " ^ string_of_expr ex)))
       | Noexpr -> Void
