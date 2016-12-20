@@ -590,35 +590,3 @@ float inverse_float(float[][] x, int h, int w){
 	}
 }
 
-
-/*
-Scalar ops:
-+ add 1D matrix int 
-+ add 2D matrix int 
-+ sub 1D matrix int 
-+ sub 2D matrix int 
-+ mult 1D matrix int 
-+ mult 2D matrix int 
-+ div 1D matrix int 
-+ div 2D matrix int 
-
-Matrix ops:
-Basic:
-+ add 1D matrix matrix int
-+ add 2D matrix matrix int
-+ add 1D matrix matrix float
-+ add 2D matrix matrix float
-+ sub 1D matrix matrix int
-+ sub 2D matrix matrix int
-+ sub 1D matrix matrix float
-+ sub 2D matrix matrix float
-
-Mult:
-+ 2D int matrix mult
-+ 2D float matrix mult
-
-+ print 1D matrix int
-+ print 2D matrix int 
-
-determinant 2D matrix 
-*/
