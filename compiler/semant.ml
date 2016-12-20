@@ -2,7 +2,7 @@ open Ast
 
 module StringMap = Map.Make(String)
 
-let check (globals, functions) = (*add tuples, matrices as args *)
+let check (globals, functions) = 
 
 (* From MicroC *)
 
@@ -27,38 +27,22 @@ let check (globals, functions) = (*add tuples, matrices as args *)
      if lvaluet = rvaluet then lvaluet else raise err
   in
 
-(* Raise an exception if the tuple or matrix type is not in typedefs *)
 
-
-(********* Checking Global Variables *****************)
-
-(* Check globals for undefined references to tuples or matrices: add a check_defined function *)
-
-(* Check global variables for void types *)
 List.iter (check_not_void (fun n -> "Illegal void global " ^ n)) globals;
 
-(* Check global variables for duplicate names *)
 report_duplicate (fun n -> "Duplicate global " ^ n) (List.map snd globals);
 
-(********* Checking Tuples *****************)
 
-(********* Checking Matrices *****************)
-
-(********* Checking Functions *****************)
-
-(* Check that functions matrix, tuple, print are not defined *)
-
-(* Check function named print is not defined *)
 if List.mem "print" (List.map (fun fd -> fd.fname) functions) 
 then raise (Failure ("Function print may not be defined")) else ();
 
-(* Check that there are no duplicate function names *)
+
 report_duplicate (fun n -> "Duplicate function " ^ n)
   (List.map (fun fd -> fd.fname) functions);
 
-(* Function declaration for a named function *)
+
 let built_in_decls = StringMap.add "print"
-	{ typ = Void; fname = "print"; formals = [(Int, "x")]; (* change to a String for hello world*)
+	{ typ = Void; fname = "print"; formals = [(Int, "x")]; 
 	  locals = []; body = [] } (StringMap.add "printf"
   { typ = Void; fname = "printf"; formals = [(Float, "x")];
     locals = []; body = [] } (StringMap.add "prints"
@@ -68,7 +52,6 @@ let built_in_decls = StringMap.add "print"
 	  locals = []; body = [] })))
 in
 
-(* Built-in functions, print and printb *)
 let function_decls = 
 	List.fold_left (fun m fd -> StringMap.add fd.fname fd m) built_in_decls functions
 in
@@ -77,13 +60,11 @@ let function_decl s = try StringMap.find s function_decls
 	with Not_found -> raise (Failure ("Unrecognized function " ^ s))
 in
 
-(* Ensure "main" is defined *)
 let _ = function_decl "main" in
 
 (* A function that is used to check each function *)
 let check_function func =
 
-	(* Check for undefined references to tuples or matrices *)
 
 	List.iter(check_not_void (fun n -> 
 		"Illegal void formal " ^ n ^ " in " ^ func.fname)) func.formals;
@@ -97,8 +78,7 @@ let check_function func =
 	report_duplicate (fun n ->
 		"Duplicate local " ^ n ^ " in " ^ func.fname)(List.map snd func.locals);
 
-(******* Checking Variables **********)
-(* Type of each variable (global, formal, or local *)
+(* Check variables *)
     let symbols = List.fold_left (fun m (t, n) -> StringMap.add n t m)
 	StringMap.empty (globals @ func.formals @ func.locals )
     in
@@ -150,8 +130,6 @@ let check_function func =
     | _ -> raise (Failure ("illegal matrix literal"))
   in
 
-(****** Establish the Type of Each Expression, Operator, Function Call, Statement *****)
-(* Return the type of an expression or throw an exception *)
 	let rec expr = function
 	     IntLiteral _ -> Int
       | FloatLiteral _ -> Float
@@ -244,7 +222,7 @@ let check_function func =
      then raise (Failure ("expected Boolean expression in " ^ string_of_expr e))
      else () in
 
-    (* Verify a statement or throw an exception *)
+    (* Verify or throw exception *)
     let rec stmt = function
 	Block sl -> let rec check_block = function
            [Return _ as s] -> stmt s

@@ -59,6 +59,8 @@ type func_decl = {
 
 type program = bind list * func_decl list
 
+
+(* Pretty Printer *)
 let string_of_bop = function
       Add -> "+"
       | Sub -> "-"
@@ -95,7 +97,6 @@ let string_of_matrix m =
   in
   "[" ^ string_of_matrix_lit m
 
-(* string print tree*)
 let rec string_of_expr = function
     IntLiteral(i) -> string_of_int i
     | FloatLiteral(i) -> string_of_float i
