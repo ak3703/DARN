@@ -1,0 +1,35 @@
+int fib(int n) {
+	if (n==0) return 0;
+	if (n==1) return 1;
+	return fib(n-1) + fib(n-2);
+}
+
+
+int main() {
+	
+	/* Instantiating variables */
+	int i;
+	bool b;
+
+	/* Comment: print i = 0 to 2 */
+	for (i=0;i<3;i=i+1) {
+		prints("Hello world\n");
+	}
+
+	i = 0;
+	b = false;
+	while (i<2) {
+		if (!b) {
+		prints("This is true\n");
+		} else {
+			prints("This is false\n");
+		}
+		b = true;
+		i=i+1;
+	}
+
+	print(fib(4));
+	prints("\n");
+
+}
+
